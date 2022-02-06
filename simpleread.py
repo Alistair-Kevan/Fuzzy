@@ -1,11 +1,10 @@
 import serial
-print("hello")
-ser = serial.Serial('/dev/ttyUSB0',9600)
-s = [0]
-print("hell")
-while True:
-    print("he")
-    s[0] = ser.readline()
-    print (s)
-    #print (cc[2:][:-5])
-    print(s.decode("utf-8"))
+ser = serial.Serial('/dev/ttyACM0',9600)
+
+if __name__ == '__main__':
+    ser.reset_input_buffer()
+    while True:
+        if ser.in_waiting > 0:
+            line = ser.readline().decode('utf-8').rstrip()
+            print(line)
+            compas = float(line)
