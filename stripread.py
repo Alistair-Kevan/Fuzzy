@@ -24,7 +24,7 @@ if __name__ == '__main__':
         if ser.in_waiting > 0:
             line = ser.readline().decode('utf-8').rstrip()
             print(line)
-            compas= float(line)
+            compas = float(line)
             #int.from_bytes(line,byteorder='big')
             if (compas > 20 and compas < 300):
                 #rightbw
