@@ -26,7 +26,7 @@ GPIO.output(22, 0)
 GPIO.output(15, 1)
 
 GPIO.output(40, 1)
-GPIO.output(38, 0)
+GPIO.output(38, 1)#his was 0 before. the little blue line on the left shows the line was modified since the last commit
 #leftfw
 #leftfw
 GPIO.output(26, 1)
