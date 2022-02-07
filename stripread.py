@@ -16,7 +16,7 @@ GPIO.setup(15, GPIO.OUT)
 
 
 import serial
-ser = serial.Serial('/dev/ttyUSB0',9600)
+ser = serial.Serial('/dev/ttyUSB0', 9600)
 
 if __name__ == '__main__':
     ser.reset_input_buffer()
