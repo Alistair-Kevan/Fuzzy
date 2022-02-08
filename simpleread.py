@@ -12,3 +12,4 @@ if __name__ == '__main__':
             line = ser.readline().decode('utf-8').rstrip()
             print(line)
             compas = float(line)
+            print(compas+10)
