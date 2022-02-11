@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
- 
+
+
 def setup():
     # Use GPIO numbers not pin numbers
     GPIO.setmode(GPIO.BOARD)
@@ -14,7 +15,6 @@ def setup():
     GPIO.setup(24, GPIO.OUT)
     GPIO.setup(22, GPIO.OUT)
     GPIO.setup(37, GPIO.OUT)
-
 
 
 def loop():
@@ -38,8 +38,9 @@ def loop():
         GPIO.output(36, 0)
         GPIO.output(32, 1)
 
+
 def destroy():
-    #pwm.stop()
+    # pwm.stop()
     # rightfw
     GPIO.output(22, 0)
     GPIO.output(37, 0)
