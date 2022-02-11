@@ -23,7 +23,7 @@ def loop():
             pwm.ChangeDutyCycle(dc)
             time.sleep(0.01)
         time.sleep(1)
-        GPIO.output(BL, GPIO.HIGH
+        GPIO.output(BL, GPIO.HIGH)
         for dc in range(100, -1, -1):
             pwm.ChangeDutyCycle(dc)
             time.sleep(0.01)
