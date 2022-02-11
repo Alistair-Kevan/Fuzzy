@@ -34,3 +34,15 @@ GPIO.output(36, 1)
 GPIO.output(32, 1)
 
 
+def destroy():
+    pwm.stop()
+    GPIO.output(ledPin, GPIO.LOW)
+    GPIO.cleanup()
+
+
+if __name__ == '__main__':
+    setup()
+    try:
+        loop()
+    except KeyboardInterrupt:
+        destroy()
