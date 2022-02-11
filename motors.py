@@ -21,7 +21,7 @@ def loop():
     while True:
         # output to GPIO8
         # rightfw
-        GPIO.output(22, 1)
+        GPIO.output(22, 0)
         GPIO.output(37, 1)
 
         GPIO.output(40, 0)
