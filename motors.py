@@ -17,9 +17,9 @@ GPIO.setup(16, GPIO.OUT)
 # output to GPIO8
 #rightfw
 GPIO.output(22, 1)
-GPIO.output(16, 0)
+GPIO.output(16, 1)
 
-GPIO.output(40, 0)
+GPIO.output(40, 1)
 GPIO.output(38, 1)
 #rightbw
 # GPIO.output(22, 0)
@@ -29,8 +29,8 @@ GPIO.output(38, 1)
 # GPIO.output(38, 0)
 #leftfw
 GPIO.output(26, 1)
-GPIO.output(24, 0)
-GPIO.output(36, 0)
+GPIO.output(24, 1)
+GPIO.output(36, 1)
 GPIO.output(32, 1)
 
 
