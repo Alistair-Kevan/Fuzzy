@@ -13,7 +13,7 @@ def setup():
     GPIO.setup(26, GPIO.OUT)
     GPIO.setup(24, GPIO.OUT)
     GPIO.setup(22, GPIO.OUT)
-    GPIO.setup(16, GPIO.OUT)
+    GPIO.setup(21, GPIO.OUT)
 
 
 
@@ -22,13 +22,13 @@ def loop():
         # output to GPIO8
         # rightfw
         GPIO.output(22, 0)
-        GPIO.output(16, 1)
+        GPIO.output(21, 1)
 
         GPIO.output(40, 0)
         GPIO.output(38, 1)
         # rightbw
         # GPIO.output(22, 0)
-        # GPIO.output(16, 1)
+        # GPIO.output(21, 1)
         #
         # GPIO.output(40, 1)
         # GPIO.output(38, 0)
@@ -42,7 +42,7 @@ def destroy():
     #pwm.stop()
     # rightfw
     GPIO.output(22, 0)
-    GPIO.output(16, 0)
+    GPIO.output(21, 0)
 
     GPIO.output(40, 0)
     GPIO.output(38, 0)
