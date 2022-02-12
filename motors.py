@@ -29,17 +29,12 @@ def loop():
         GPIO.output(38, 1)
 
 
-        # rightbw
-        GPIO.output(35, 0)
-        GPIO.output(37, 1)
 
-        GPIO.output(40, 1)
-        GPIO.output(38, 0)
         # leftfw
-       #GPIO.output(26, 0)
-       # GPIO.output(24, 1)
-       # GPIO.output(36, 0)
-       # GPIO.output(32, 1)
+        GPIO.output(26, 0)
+        GPIO.output(24, 1)
+        GPIO.output(36, 0)
+        GPIO.output(32, 1)
 
 
 def destroy():
