@@ -22,10 +22,10 @@ def loop():
         # output to GPIO8
         # rightfw
 
-        GPIO.output(35, 1)
+        GPIO.output(35, 0) #back left ?
         GPIO.output(37, 1)
 
-        GPIO.output(40, 0)
+        GPIO.output(40, 0)#front right fw
         GPIO.output(38, 1)
 
 
