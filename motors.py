@@ -31,10 +31,10 @@ def loop():
 
 
         # leftfw
-        GPIO.output(26, 0)
-        GPIO.output(24, 1)
-        GPIO.output(36, 0)
-        GPIO.output(32, 1)
+        GPIO.output(26, 1)
+        GPIO.output(24, 0)
+        GPIO.output(36, 1)
+        GPIO.output(32, 0)
 
 
 def destroy():
