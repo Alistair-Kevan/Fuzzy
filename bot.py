@@ -90,12 +90,12 @@ def loop():
 
             fr1.value = 1
             fr2.value = 0
-            br1.value = 1
+            br1.value = 0
             br2.value = 0
 
             fl1.value = 1
             fl2.value = 0
-            bl1.value = 1
+            bl1.value = 0
             bl2.value = 0
             """
             fr1.value = 1
