@@ -11,8 +11,8 @@ import digitalio
 
 
 import adafruit_lsm303dlh_mag
-#i2c = board.I2C()  # uses board.SCL and board.SDA
-i2c = busio.I2C(board.SCL, board.SDA)
+i2c = board.I2C()  # uses board.SCL and board.SDA
+#i2c = busio.I2C(board.SCL, board.SDA)
 #i2c = 3, 5
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
 
