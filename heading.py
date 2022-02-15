@@ -24,5 +24,11 @@ def get_heading(_sensor):
 
 
 while True:
+    head = format(get_heading(sensor)
     print("heading: {:.2f} degrees".format(get_heading(sensor)))
+    print(head)
+    if(head>20 & head<340):
+        print("turn")
+    else:
+        print("go!")
     time.sleep(0.2)
