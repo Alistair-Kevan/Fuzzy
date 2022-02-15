@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 
 def setup():
     # Use GPIO numbers not pin numbers
+
     GPIO.setmode(GPIO.BOARD)
 
     # set up the GPIO channels - one input and one output
