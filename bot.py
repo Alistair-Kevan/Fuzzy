@@ -15,7 +15,10 @@ i2c = board.I2C()  # uses board.SCL and board.SDA
 #i2c = busio.I2C(board.SCL, board.SDA)
 #i2c = 3, 5
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-
+fr1 = digitalio.DigitalInOut(board.D21)
+fr1.direction = digitalio.Direction.OUTPUT
+fr2 = digitalio.DigitalInOut(board.D20)
+fr2.direction = digitalio.Direction.OUTPUT
 
 
 def vector_2_degrees(x, y):
@@ -37,10 +40,7 @@ def setup():
     # Use GPIO numbers not pin numbers
 
     #GPIO.setmode(GPIO.BOARD)
-    fr1 = digitalio.DigitalInOut(board.D21)
-    fr1.direction = digitalio.Direction.OUTPUT
-    fr2 = digitalio.DigitalInOut(board.D20)
-    fr2.direction = digitalio.Direction.OUTPUT
+
 
     # set up the GPIO channels - one input and one output
     """GPIO.setup(40, GPIO.OUT)
