@@ -27,7 +27,7 @@ while True:
     head = get_heading(sensor)
     print("heading: {:.2f} degrees".format(head))
     print(head)
-    if(head>20.0 & head<340.0):
+    if head > 20.0 and head < 340.0:
         print("turn")
     else:
         print("go!")
