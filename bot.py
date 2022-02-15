@@ -20,9 +20,9 @@ fr1.direction = digitalio.Direction.OUTPUT
 fr2 = digitalio.DigitalInOut(board.D21)
 fr2.direction = digitalio.Direction.OUTPUT
 
-br1 = digitalio.DigitalInOut(board.D19)
+br1 = digitalio.DigitalInOut(board.D26)#26
 br1.direction = digitalio.Direction.OUTPUT
-br2 = digitalio.DigitalInOut(board.D26)
+br2 = digitalio.DigitalInOut(board.D19)#19
 br2.direction = digitalio.Direction.OUTPUT
 
 fl1 = digitalio.DigitalInOut(board.D7)
@@ -30,9 +30,9 @@ fl1.direction = digitalio.Direction.OUTPUT
 fl2 = digitalio.DigitalInOut(board.D8)
 fl2.direction = digitalio.Direction.OUTPUT
 
-bl1 = digitalio.DigitalInOut(board.D16)
+bl1 = digitalio.DigitalInOut(board.D12)#12
 bl1.direction = digitalio.Direction.OUTPUT
-bl2 = digitalio.DigitalInOut(board.D12)
+bl2 = digitalio.DigitalInOut(board.D16)
 bl2.direction = digitalio.Direction.OUTPUT
 """GPIO.output(35, 1)  
             GPIO.output(37, 0)
