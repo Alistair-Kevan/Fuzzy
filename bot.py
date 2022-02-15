@@ -93,7 +93,7 @@ def loop():
             br1.value = 0
             br2.value = 0
 
-            fl1.value = 1
+            fl1.value = 0
             fl2.value = 0
             bl1.value = 0
             bl2.value = 0
