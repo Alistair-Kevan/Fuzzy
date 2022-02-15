@@ -7,8 +7,13 @@ import time
 from math import atan2, degrees
 
 import board
-import adafruit_lsm303dlh_mag
+import busio
 
+import adafruit_lsm303dlh_mag
+#i2c = board.I2C()  # uses board.SCL and board.SDA
+i2c = busio.I2C(board.SCL1, board.SDA1)  # QT Py RP2040 STEMMA
+#i2c = 3, 5
+sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
 
 
 
@@ -43,9 +48,7 @@ def setup():
     GPIO.setup(35, GPIO.OUT)
     GPIO.setup(37, GPIO.OUT)
 
-    i2c = board.I2C()  # uses board.SCL and board.SDA
-    #i2c = 3, 5
-    sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
+
 
 def loop():
     while True:
