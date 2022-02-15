@@ -115,10 +115,10 @@ def loop():
             br1.value = 1
             br2.value = 0
 
-            fl1.value = 0
-            fl2.value = 1
-            bl1.value = 0
-            bl2.value = 1
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
             """GPIO.output(35, 1)  
             GPIO.output(37, 0)
 
