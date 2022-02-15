@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 """ Display compass heading data five times per second """
 import time
 from math import atan2, degrees
-import board
+import board.I2C
 import adafruit_lsm303dlh_mag
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
