@@ -96,9 +96,9 @@ def loop():
             br2.value = 0
 
             fl1.value = 0
-            fl2.value = 1
+            #fl2.value = 1
             bl1.value = 0
-            bl2.value = 1
+            #bl2.value = 1
 
             """GPIO.output(35, 0)  # back left fw
             GPIO.output(37, 1)
