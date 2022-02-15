@@ -36,7 +36,6 @@ bl2 = digitalio.DigitalInOut(board.D12)
 bl2.direction = digitalio.Direction.OUTPUT
 """GPIO.output(35, 1)  
             GPIO.output(37, 0)
-
             GPIO.output(40, 0)  
             GPIO.output(38, 1)
 
