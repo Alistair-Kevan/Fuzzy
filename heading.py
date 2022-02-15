@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 """ Display compass heading data five times per second """
+import RPi.GPIO as GPIO
 import time
 from math import atan2, degrees
 import board
