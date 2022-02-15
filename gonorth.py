@@ -8,8 +8,7 @@ from math import atan2, degrees
 #import board
 import adafruit_lsm303dlh_mag
 
-#i2c = board.I2C()  # uses board.SCL and board.SDA
-sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
+
 
 
 def vector_2_degrees(x, y):
@@ -43,6 +42,9 @@ def setup():
     GPIO.setup(35, GPIO.OUT)
     GPIO.setup(37, GPIO.OUT)
 
+    # i2c = board.I2C()  # uses board.SCL and board.SDA
+    i2c = 3, 5
+    sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
 
 def loop():
     while True:
