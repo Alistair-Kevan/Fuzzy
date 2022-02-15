@@ -5,7 +5,7 @@
 """ Display compass heading data five times per second """
 import time
 from math import atan2, degrees
-
+import RPi.GPIO
 import board
 import digitalio
 
@@ -142,7 +142,9 @@ def loop():
 def destroy():
     # pwm.stop()
     # rightfw
-    GPIO.output(35, 0)
+    RPi.GPIO.cleanup()
+    print("\nCleaned up GPIO resources.")
+    """GPIO.output(35, 0)
     GPIO.output(37, 0)
 
     GPIO.output(40, 0)
@@ -152,7 +154,7 @@ def destroy():
     GPIO.output(24, 0)
     GPIO.output(36, 0)
     GPIO.output(32, 0)
-    GPIO.cleanup()
+    GPIO.cleanup()"""
 
 
 if __name__ == '__main__':
