@@ -27,7 +27,7 @@ br2.direction = digitalio.Direction.OUTPUT
 
 fl1 = digitalio.DigitalInOut(board.D7)
 fl1.direction = digitalio.Direction.OUTPUT
-fl2 = digitalio.DigitalInOut(board.D18)
+fl2 = digitalio.DigitalInOut(board.D8)
 fl2.direction = digitalio.Direction.OUTPUT
 
 bl1 = digitalio.DigitalInOut(board.D16)
