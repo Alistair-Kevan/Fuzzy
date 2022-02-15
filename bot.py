@@ -15,11 +15,36 @@ i2c = board.I2C()  # uses board.SCL and board.SDA
 #i2c = busio.I2C(board.SCL, board.SDA)
 #i2c = 3, 5
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-fr1 = digitalio.DigitalInOut(board.D21)
+fr1 = digitalio.DigitalInOut(board.D20)
 fr1.direction = digitalio.Direction.OUTPUT
-fr2 = digitalio.DigitalInOut(board.D20)
+fr2 = digitalio.DigitalInOut(board.D21)
 fr2.direction = digitalio.Direction.OUTPUT
 
+br1 = digitalio.DigitalInOut(board.D19)
+br1.direction = digitalio.Direction.OUTPUT
+br2 = digitalio.DigitalInOut(board.D26)
+br2.direction = digitalio.Direction.OUTPUT
+
+fl1 = digitalio.DigitalInOut(board.D7)
+fl1.direction = digitalio.Direction.OUTPUT
+fl2 = digitalio.DigitalInOut(board.D18)
+fl2.direction = digitalio.Direction.OUTPUT
+
+bl1 = digitalio.DigitalInOut(board.D16)
+bl1.direction = digitalio.Direction.OUTPUT
+bl2 = digitalio.DigitalInOut(board.D12)
+bl2.direction = digitalio.Direction.OUTPUT
+"""GPIO.output(35, 1)  
+            GPIO.output(37, 0)
+
+            GPIO.output(40, 0)  
+            GPIO.output(38, 1)
+
+            # leftfw
+            GPIO.output(26, 1)
+            GPIO.output(24, 0)
+            GPIO.output(36, 1)
+            GPIO.output(32, 0)"""
 
 def vector_2_degrees(x, y):
     angle = degrees(atan2(y, x))
@@ -63,8 +88,16 @@ def loop():
         print(head)
         if head > 20.0 and head < 340.0:
             print("turn")
-            fr1.value = False
-            fr2.value = True
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
+
+            fl1.value = 0
+            fl2.value = 1
+            bl1.value = 0
+            bl2.value = 1
+
             """GPIO.output(35, 0)  # back left fw
             GPIO.output(37, 1)
 
@@ -78,12 +111,19 @@ def loop():
             GPIO.output(32, 0)"""
         else:
             print("go!")
-            fr1.value = True
-            fr2.value = False
-            """GPIO.output(35, 1)  # back left fw
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
+
+            fl1.value = 0
+            fl2.value = 1
+            bl1.value = 0
+            bl2.value = 1
+            """GPIO.output(35, 1)  
             GPIO.output(37, 0)
 
-            GPIO.output(40, 0)  # front right fw
+            GPIO.output(40, 0)  
             GPIO.output(38, 1)
 
             # leftfw
