@@ -12,38 +12,27 @@ import digitalio
 
 import adafruit_lsm303dlh_mag
 i2c = board.I2C()  # uses board.SCL and board.SDA
-#i2c = busio.I2C(board.SCL, board.SDA)
-#i2c = 3, 5
+
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-fr1 = digitalio.DigitalInOut(board.D20)
+fr1 = digitalio.DigitalInOut(board.D20)#front right motor pair
 fr1.direction = digitalio.Direction.OUTPUT
 fr2 = digitalio.DigitalInOut(board.D21)
 fr2.direction = digitalio.Direction.OUTPUT
 
-br1 = digitalio.DigitalInOut(board.D16)#19
+br1 = digitalio.DigitalInOut(board.D16)#19 back right motor pair
 br1.direction = digitalio.Direction.OUTPUT
 br2 = digitalio.DigitalInOut(board.D12)#26
 br2.direction = digitalio.Direction.OUTPUT
 
-fl1 = digitalio.DigitalInOut(board.D7)
+fl1 = digitalio.DigitalInOut(board.D7)#front left motor pair
 fl1.direction = digitalio.Direction.OUTPUT
 fl2 = digitalio.DigitalInOut(board.D8)
 fl2.direction = digitalio.Direction.OUTPUT
 
-bl1 = digitalio.DigitalInOut(board.D19)#12
+bl1 = digitalio.DigitalInOut(board.D19)#12 back left motor pair
 bl1.direction = digitalio.Direction.OUTPUT
 bl2 = digitalio.DigitalInOut(board.D26)#16
 bl2.direction = digitalio.Direction.OUTPUT
-"""GPIO.output(35, 1)  
-            GPIO.output(37, 0)
-            GPIO.output(40, 0)  
-            GPIO.output(38, 1)
-
-            # leftfw
-            GPIO.output(26, 1)
-            GPIO.output(24, 0)
-            GPIO.output(36, 1)
-            GPIO.output(32, 0)"""
 
 def vector_2_degrees(x, y):
     angle = degrees(atan2(y, x))
@@ -85,11 +74,8 @@ def loop():
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
         print(head)
-        if head > 20.0 and head < 340.0:
-            print("turn")
-
-
-
+        if 180 < head < 355.0:
+            print("turn right")#from high numbers towards north
             fr1.value = 1
             fr2.value = 0
             br1.value = 1
@@ -100,17 +86,17 @@ def loop():
             bl1.value = 0
             bl2.value = 1
 
-            """GPIO.output(35, 0)  # back left fw
-            GPIO.output(37, 1)
+        elif 5 < head <= 180.0:
+            print("turn left")  # from low numbers towards north
+            fr1.value = 0
+            fr2.value = 1
+            br1.value = 0
+            br2.value = 1
 
-            GPIO.output(40, 1)  # front right fw
-            GPIO.output(38, 0)
-
-            # leftfw
-            GPIO.output(26, 1)
-            GPIO.output(24, 0)
-            GPIO.output(36, 1)
-            GPIO.output(32, 0)"""
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
         else:
             print("go!")
             fr1.value = 1
@@ -122,17 +108,6 @@ def loop():
             fl2.value = 0
             bl1.value = 1
             bl2.value = 0
-            """GPIO.output(35, 1)  
-            GPIO.output(37, 0)
-
-            GPIO.output(40, 0)  
-            GPIO.output(38, 1)
-
-            # leftfw
-            GPIO.output(26, 1)
-            GPIO.output(24, 0)
-            GPIO.output(36, 1)
-            GPIO.output(32, 0)"""
         time.sleep(0.01)
 
         # output to GPIO8
