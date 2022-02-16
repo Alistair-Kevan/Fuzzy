@@ -74,7 +74,7 @@ def loop():
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
         print(head)
-        if 180 < head < 355.0:
+        if 5 < head <= 180.0:
             print("turn right")#from high numbers towards north
             fr1.value = 1
             fr2.value = 0
@@ -86,7 +86,7 @@ def loop():
             bl1.value = 0
             bl2.value = 1
 
-        elif 5 < head <= 180.0:
+        elif 180 < head < 355.0:
             print("turn left")  # from low numbers towards north
             fr1.value = 0
             fr2.value = 1
