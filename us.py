@@ -8,7 +8,9 @@ import RPi.GPIO
 import board
 import digitalio
 
-sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
+sonarfm = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
+sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)#9, 11
+sonarfr = adafruit_hcsr04.HCSR04(trigger_pin=board.D22, echo_pin=board.D10)#22, 10
 
 def destroy():
     RPi.GPIO.cleanup()
@@ -16,7 +18,7 @@ def destroy():
 
 while True:
     try:
-        print((sonar.distance,))
+        print((sonarfl.distance,)(sonarfm.distance,)(sonarfr.distance,))
     except RuntimeError:
         print("Retrying!")
     except KeyboardInterrupt:
