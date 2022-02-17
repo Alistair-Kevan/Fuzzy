@@ -25,7 +25,7 @@ while True:
     try:
         print((sonarfl.distance,),(sonarfm.distance,),(sonarfr.distance,))
         print((sonarbl.distance,), (sonarbm.distance,), (sonarbr.distance,))
-        print("")
+        print("new")
     except RuntimeError:
         print("Retrying!")
     except KeyboardInterrupt:
