@@ -10,22 +10,19 @@ import digitalio
 
 sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
 
+def destroy():
+    RPi.GPIO.cleanup()
+    print("\nCleaned up GPIO resources.")
+
 while True:
     try:
         print((sonar.distance,))
     except RuntimeError:
         print("Retrying!")
+    except KeyboardInterrupt:
+        destroy()
     time.sleep(0.1)
 
 
-def destroy():
-    RPi.GPIO.cleanup()
-    print("\nCleaned up GPIO resources.")
 
 
-if __name__ == '__main__':
-    setup()
-    try:
-        loop()
-    except KeyboardInterrupt:
-        destroy()
