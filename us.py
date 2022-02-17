@@ -24,6 +24,7 @@ def destroy():
 while True:
     try:
         print((sonarfl.distance,),(sonarfm.distance,),(sonarfr.distance,))
+        print((sonarbl.distance,), (sonarbm.distance,), (sonarbr.distance,))
     except RuntimeError:
         print("Retrying!")
     except KeyboardInterrupt:
