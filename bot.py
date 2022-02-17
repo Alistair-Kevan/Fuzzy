@@ -46,11 +46,11 @@ def get_heading(_sensor):
     return vector_2_degrees(magnet_x, magnet_y)
 
 def setup():
+    print("set up")
 
 
 def loop():
     while True:
-
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
         print(head)
