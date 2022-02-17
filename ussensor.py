@@ -44,7 +44,7 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_HCSR04.git"
 
 
-[docs]class HCSR04:
+
     """Control a HC-SR04 ultrasonic range sensor.
 
     Example use:
