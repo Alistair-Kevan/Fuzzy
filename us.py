@@ -36,7 +36,7 @@ while True:
         print("Retrying!")
     except KeyboardInterrupt:
         destroy()
-    time.sleep(0.1)
+    time.sleep(0.3)
 
 
 
