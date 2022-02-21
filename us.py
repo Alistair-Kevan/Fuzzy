@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 import time
-import board
-import adafruit_hcsr04
+#import adafruit_hcsr04
+from adafruit_hcsr04 import HCSR04
 import RPi.GPIO
 import board
 import digitalio
@@ -23,7 +23,7 @@ def destroy():
     print("\nCleaned up GPIO resources.")
 
 
-while True:
+'''while True:
     try:
         print("fl: ", sonarfl.distance)
         print(sonarfm.distance)
@@ -36,8 +36,15 @@ while True:
     #    print("Retrying!")
     except KeyboardInterrupt:
         destroy()
-    time.sleep(0.3)
+    time.sleep(0.3)'''
 
+with HCSR04(trigger_pin=board.D5, echo_pin=board.D6) as sonar:
+    try:
+        while True:
+            print(sonar.distance)
+            sleep(2)
+    except KeyboardInterrupt:
+        pass
 
 
 
