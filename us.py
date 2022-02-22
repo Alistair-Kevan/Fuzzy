@@ -43,6 +43,8 @@ with HCSR04(trigger_pin=board.D5, echo_pin=board.D6) as sonar:
         while True:
             print(sonar.distance)
             time.sleep(2)
+        except RuntimeError:
+            print("Retrying!")
     except KeyboardInterrupt:
         pass
 
