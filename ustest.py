@@ -13,9 +13,10 @@ RPi.GPIO.cleanup()
 sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)#9, 11
 sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 17,27
 sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D24, echo_pin=board.D25)  # 24,25
-sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 18, 23
+#sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 18, 23
 fl = 0
 br = 0
+bm = 0
 
 def destroy():
     RPi.GPIO.cleanup()
@@ -34,8 +35,3 @@ while True:
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
-
-
-
-
-
