@@ -25,18 +25,11 @@ def destroy():
 
 while True:
     try:
-        print("fl: ", sonarfl.distance)
-        print(sonarfm.distance)
-        print(sonarfr.distance)
-        print("bl: ",sonarbl.distance)
-        print(sonarbm.distance)
-        print(sonarbr.distance)
-        print("")
-    except RuntimeError:
-        print("Retrying!")
-    except KeyboardInterrupt:
-        destroy()
+        print("fl: ", sonarfl.distance, "fm: ", sonarfm.distance, "fr: ", sonarfr.distance, "bl: ", sonarbl.distance, "bm:", sonarbm.distance, "br:", sonarbr.distance)
+    except RuntimeError:print("Retrying!")
+    except KeyboardInterrupt:destroy()
     time.sleep(0.3)
+
 
 """with HCSR04(trigger_pin=board.D5, echo_pin=board.D6) as sonar:
     try:
@@ -44,7 +37,15 @@ while True:
             print(sonar.distance)
         except RuntimeError:
             print("Retrying!")
-        time.sleep(2)"""
+        time.sleep(2)
+        
+        print("fl: ", sonarfl.distance)
+        print(sonarfm.distance)
+        print(sonarfr.distance)
+        print("bl: ", sonarbl.distance)
+        print(sonarbm.distance)
+        print(sonarbr.distance)
+        print("")"""
     #except KeyboardInterrupt:
     #    pass
 
