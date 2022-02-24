@@ -8,6 +8,7 @@ import RPi.GPIO
 import board
 import digitalio
 
+
 RPi.GPIO.cleanup()
 sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 17,27
 sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D24, echo_pin=board.D25)  # 24,25
