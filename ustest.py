@@ -25,7 +25,7 @@ def destroy():
 while True:
     try:
         fl = sonarfl.distance
-        #br = sonarbl.distance
+        br = sonarbr.distance
         #bm = sonarbm.distance
         #br = sonarbr.distance
         print("fl:", fl, "bl: ", br,  "br:", )
