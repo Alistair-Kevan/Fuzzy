@@ -13,7 +13,7 @@ RPi.GPIO.cleanup()
 sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)#9, 11
 sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 17,27
 sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D14, echo_pin=board.D15)  # 24,25
-#sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 18, 23
+sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 18, 23
 fl = 0
 br = 0
 bm = 0
@@ -28,11 +28,12 @@ while True:
         bm = sonarbm.distance
         fl = sonarfl.distance
         br = sonarbr.distance
+        bl = sonarbl.distance
 
         #br = sonarbr.distance
-        print("fl:", fl, "bl: ", br,  "br:", "bm: ", bm)
+        print("fl:", fl, "bl: ", bl  "br:", br, "bm: ", bm)
     except RuntimeError:
-        print("Retrying!", "fl:", fl, "bl: ", br, "bm: ", bm) #bm, "br:", br)
+        print("Retrying!", "fl:", fl, "bl: ", bl  "br:", br, "bm: ", bm) #bm, "br:", br)
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
