@@ -23,11 +23,11 @@ def destroy():
 while True:
     try:
         bl = sonarbl.distance
-        bm = sonarbm.distance
-        br = sonarbr.distance
+        #bm = sonarbm.distance
+        #br = sonarbr.distance
         print("bl: ", bl, "bm:", bm, "br:", br)
     except RuntimeError:
-        print("Retrying!", "bl: ", bl, "bm:", bm, "br:", br)
+        print("Retrying!", "bl: ", bl, "bm:") #bm, "br:", br)
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
