@@ -27,8 +27,8 @@ while True:
         fl = sonarfl.distance
         fm = sonarfm.distance
         fr = sonarfr.distance
-        #bl = sonarbl.distance
-        #bm = sonarbm.distance
+        bl = sonarbl.distance
+        bm = sonarbm.distance
         br = sonarbr.distance
         print("fl: ", fl, "fm: ",  fm, "fr: ",  fr, "bl: ",  bl, "bm:",  bm, "br:",  br)
     except RuntimeError: print("Retrying!", "fl: ", fl, "fm: ",  fm, "fr: ",  fr, "bl: ",  "bl", "bm:",  "bm", "br:",  "br")
