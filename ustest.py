@@ -26,11 +26,11 @@ while True:
     try:
         fl = sonarfl.distance
         br = sonarbr.distance
-        #bm = sonarbm.distance
+        bm = sonarbm.distance
         #br = sonarbr.distance
-        print("fl:", fl, "bl: ", br,  "br:", )
+        print("fl:", fl, "bl: ", br,  "br:","bm: ", bm)
     except RuntimeError:
-        print("Retrying!", "fl:", fl, "bl: ", br, ) #bm, "br:", br)
+        print("Retrying!", "fl:", fl, "bl: ", br ,"bm: ", bm) #bm, "br:", br)
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
