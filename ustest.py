@@ -17,6 +17,7 @@ sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 1
 fl = 0
 br = 0
 bm = 0
+bl = 0
 
 def destroy():
     RPi.GPIO.cleanup()
