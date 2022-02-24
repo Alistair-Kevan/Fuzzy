@@ -32,8 +32,8 @@ while True:
         print(sonarbm.distance)
         print(sonarbr.distance)
         print("")
-    #except RuntimeError:
-    #    print("Retrying!")
+    except RuntimeError:
+        print("Retrying!")
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
