@@ -15,7 +15,7 @@ sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 1
 sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D24, echo_pin=board.D25)  # 24,25
 sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D18, echo_pin=board.D23)  # 18, 23
 fl = 0
-bl = 0
+br = 0
 
 def destroy():
     RPi.GPIO.cleanup()
@@ -25,12 +25,12 @@ def destroy():
 while True:
     try:
         fl = sonarfl.distance
-        bl = sonarbl.distance
+        #br = sonarbl.distance
         #bm = sonarbm.distance
         #br = sonarbr.distance
-        print("fl:", fl, "bl: ", bl,  "br:", )
+        print("fl:", fl, "bl: ", br,  "br:", )
     except RuntimeError:
-        print("Retrying!", "fl:", fl, "bl: ", bl, ) #bm, "br:", br)
+        print("Retrying!", "fl:", fl, "bl: ", br, ) #bm, "br:", br)
     except KeyboardInterrupt:
         destroy()
     time.sleep(0.3)
