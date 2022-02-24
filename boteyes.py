@@ -1,8 +1,3 @@
-#import RPi.GPIO as GPIO
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-""" Display compass heading data five times per second """
 import time
 from math import atan2, degrees
 import RPi.GPIO
@@ -11,9 +6,10 @@ import digitalio
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 import adafruit_hcsr04
-
+import adafruit_lsm303dlh_mag
+#ensure gpios are clean
 RPi.GPIO.cleanup()
-
+#create objects for each sesnor, f/b = front/back l/m/r = left/middle/right
 sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)  # 9, 11
 sonarfm = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
 sonarfr = adafruit_hcsr04.HCSR04(trigger_pin=board.D22, echo_pin=board.D10)  # 22, 10
@@ -26,38 +22,33 @@ fr = 0
 br = 0
 bm = 0
 bl = 0
-import adafruit_lsm303dlh_mag
-i2c = board.I2C()  # uses board.SCL and board.SDA
 
+i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-fr1 = digitalio.DigitalInOut(board.D20)#front right motor pair
+fr1 = digitalio.DigitalInOut(board.D20)  # front right motor pair
 fr1.direction = digitalio.Direction.OUTPUT
 fr2 = digitalio.DigitalInOut(board.D21)
 fr2.direction = digitalio.Direction.OUTPUT
 
-br1 = digitalio.DigitalInOut(board.D16)#19 back right motor pair
+br1 = digitalio.DigitalInOut(board.D16)  # 19 back right motor pair
 br1.direction = digitalio.Direction.OUTPUT
-br2 = digitalio.DigitalInOut(board.D12)#26
+br2 = digitalio.DigitalInOut(board.D12)  # 26
 br2.direction = digitalio.Direction.OUTPUT
 
-fl1 = digitalio.DigitalInOut(board.D7)#front left motor pair
+fl1 = digitalio.DigitalInOut(board.D7)  # front left motor pair
 fl1.direction = digitalio.Direction.OUTPUT
 fl2 = digitalio.DigitalInOut(board.D8)
 fl2.direction = digitalio.Direction.OUTPUT
 
-bl1 = digitalio.DigitalInOut(board.D19)#12 back left motor pair
+bl1 = digitalio.DigitalInOut(board.D19)  # 12 back left motor pair
 bl1.direction = digitalio.Direction.OUTPUT
-bl2 = digitalio.DigitalInOut(board.D26)#16
+bl2 = digitalio.DigitalInOut(board.D26)  # 16
 bl2.direction = digitalio.Direction.OUTPUT
+
 
 def destroy():
     RPi.GPIO.cleanup()
     print("\nCleaned up GPIO resources.")
-
-
-
-
-
 
 
 def vector_2_degrees(x, y):
@@ -70,6 +61,7 @@ def vector_2_degrees(x, y):
 def get_heading(_sensor):
     magnet_x, magnet_y, _ = _sensor.magnetic
     return vector_2_degrees(magnet_x, magnet_y)
+
 
 def setup():
     print("set up")
@@ -91,7 +83,7 @@ def loop():
         except RuntimeError:
             print("Retrying!", "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         if 5 < head <= 180.0:
-            print("turn left")#from high numbers towards north
+            print("turn left")  # from high numbers towards north
             fr1.value = 1
             fr2.value = 0
             br1.value = 1
@@ -102,7 +94,7 @@ def loop():
             bl1.value = 0
             bl2.value = 1
 
-        elif 180 < head < 355.0:
+        elif 180 < head < 355.0 or fm < 50:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
             fr2.value = 1
@@ -125,6 +117,7 @@ def loop():
             bl1.value = 1
             bl2.value = 0
         time.sleep(0.01)
+
 
 if __name__ == '__main__':
     setup()
