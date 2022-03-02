@@ -106,7 +106,8 @@ def loop():
         #logic starts here
         ymeasured = bm
         xmeasured = bl
-        roomhead = headchange(head, (0-roomofset))
+        roomofset = -abs(roomofset)
+        roomhead = headchange(head, roomofset)
         print("roomhead: ", roomhead)
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
             if ymeasured < ygoal:
