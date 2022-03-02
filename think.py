@@ -64,7 +64,7 @@ def get_heading(_sensor):
 
 
 def setup():
-    roomdeg = float get_heading(sensor)
+    roomdeg = get_heading(sensor)
     print("set up")
     return roomdeg
 
