@@ -87,22 +87,23 @@ def loop():
     global bl
     ygoal = 500
     headtolerance = 3
-    roomofset = setup()
+    roomofset = setup()#save room orienation
     print("roomofset", roomofset)
     while True:
 
         #get readings from US and Compas.
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
-        roomhead = headchange(head, roomofset)
+        roomhead = headchange(head, roomofset)#alighnes heading to room
         print("roomhead: ", roomhead)
         #print(head)
         try:
+            bm = sonarbm.distance
             fl = sonarfl.distance
             fm = sonarfm.distance
             fr = sonarfr.distance
             bl = sonarbl.distance
-            bm = sonarbm.distance
+
             br = sonarbr.distance
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
@@ -123,7 +124,7 @@ def loop():
                 bl1.value = 1
                 bl2.value = 0
             else:
-                roomofset+90
+                headchange(roomofset, 90)
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
