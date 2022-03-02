@@ -26,15 +26,10 @@ def destroy():
 
 while True:
     try:
-
         fl = sonarfl.distance
         br = sonarbr.distance
         bm = sonarbm.distance
         bl = sonarbl.distance
-
-
-
-        #br = sonarbr.distance
         print("fl:", fl, "bl: ", bl, "br:", br, "bm: ", bm)
     except RuntimeError:
         print("Retrying!", "fl:", fl, "bl: ", bl, "br:", br, "bm: ", bm) #bm, "br:", br)

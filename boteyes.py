@@ -120,8 +120,14 @@ def loop():
 
 
 if __name__ == '__main__':
+
     setup()
+    print("setup")
     try:
+        print("try loop!")
         loop()
+        print("exit loop?")
     except KeyboardInterrupt:
+        print("destroy")
         destroy()
+        print("destroyed!")
