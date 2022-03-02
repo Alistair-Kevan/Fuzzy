@@ -101,7 +101,7 @@ def loop():
             bl1.value = 0
             bl2.value = 1
 
-        elif 180 < head < 355.0 #or fm < 50:
+        elif 180 < head < 355.0: #or fm < 50:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
             fr2.value = 1
