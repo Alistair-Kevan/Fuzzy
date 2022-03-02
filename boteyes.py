@@ -120,7 +120,7 @@ def loop():
 
 
 if __name__ == '__main__':
-
+    print("go!")
     setup()
     print("setup")
     try:
