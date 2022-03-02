@@ -16,12 +16,12 @@ sonarfr = adafruit_hcsr04.HCSR04(trigger_pin=board.D22, echo_pin=board.D10)  # 2
 sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 17,27
 sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D14, echo_pin=board.D15)  # 24,25
 sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D25, echo_pin=board.D18)  # 18, 23
-global fl
-global fm
-global fr
-global br
-global bm
-global bl
+fl = 0
+fm = 0
+fr = 0
+br = 0
+bm = 0
+bl = 0
 
 i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
@@ -74,12 +74,7 @@ def loop():
     global br
     global bm
     global bl
-    fl = 0
-    fm = 0
-    fr = 0
-    br = 0
-    bm = 0
-    bl = 0
+
     while True:
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
