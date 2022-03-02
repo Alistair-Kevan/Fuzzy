@@ -85,8 +85,8 @@ def loop():
     global br
     global bm
     global bl
-    ygoal = 500
-    headtolerance = 3
+    ygoal = 200
+    headtolerance = 30
     roomofset = setup()#save room orienation
     print("roomofset", roomofset)
     while True:
