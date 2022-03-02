@@ -99,12 +99,13 @@ def loop():
         #print(head)
         try:
             bm = sonarbm.distance
-            fl = sonarfl.distance
+
             fm = sonarfm.distance
             fr = sonarfr.distance
             bl = sonarbl.distance
 
             br = sonarbr.distance
+            fl = sonarfl.distance
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying!", "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
