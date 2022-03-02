@@ -111,7 +111,18 @@ def loop():
         #logic starts here
         ymeasured = bm
         xmeasured = bl
-        if(360-headtolerance) < roomhead or roomhead < headtolerance:
+        if fm < 10:
+            print("stop!")
+            fr1.value = 0
+            fr2.value = 0
+            br1.value = 0
+            br2.value = 0
+
+            fl1.value = 0
+            fl2.value = 0
+            bl1.value = 0
+            bl2.value = 0
+        elif(360-headtolerance) < roomhead or roomhead < headtolerance:
             if ymeasured < ygoal:
                 print("go!")
                 fr1.value = 1
