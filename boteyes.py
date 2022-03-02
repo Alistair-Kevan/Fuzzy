@@ -68,6 +68,12 @@ def setup():
 
 
 def loop():
+    global fl
+    global fm
+    global fr
+    global br
+    global bm
+    global bl
     while True:
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
