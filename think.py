@@ -65,6 +65,7 @@ def get_heading(_sensor):
 
 def setup():
     roomdeg = get_heading(sensor)
+    roomdeg = -1*roomdeg
     print("set up")
     return roomdeg
 
@@ -92,6 +93,8 @@ def loop():
         #get readings from US and Compas.
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
+        roomhead = headchange(head, roomofset)
+        print("roomhead: ", roomhead)
         #print(head)
         try:
             fl = sonarfl.distance
@@ -106,9 +109,6 @@ def loop():
         #logic starts here
         ymeasured = bm
         xmeasured = bl
-        roomofset = -abs(roomofset)
-        roomhead = headchange(head, roomofset)
-        print("roomhead: ", roomhead)
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
             if ymeasured < ygoal:
                 print("go!")
