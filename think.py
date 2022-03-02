@@ -69,8 +69,9 @@ def setup():
     print("set up")
     return roomdeg
 
+
 def headchange(goalhead, change):
-    goalhead + change
+    goalhead = goalhead + change
     if 360 <= goalhead:
         goalhead - 360
     if goalhead < 0:
@@ -86,10 +87,10 @@ def loop():
     global bl
     ygoal = 500
     headtolerance = 3
-    goalhead = 0
     roomofset = setup()
     print("roomofset", roomofset)
     while True:
+
         #get readings from US and Compas.
         head = get_heading(sensor)
         print("heading: {:.2f} degrees".format(head))
