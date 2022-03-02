@@ -64,8 +64,7 @@ def get_heading(_sensor):
 
 
 def setup():
-    global roomdeg
-    roomdeg = get_heading(sensor)
+    roomdeg = float get_heading(sensor)
     print("set up")
     return roomdeg
 
@@ -88,6 +87,7 @@ def loop():
     headtolerance = 3
     goalhead = 0
     roomofset = setup()
+    print("roomofset", roomofset)
     while True:
         #get readings from US and Compas.
         head = get_heading(sensor)
