@@ -132,7 +132,7 @@ def loop():
             bl1.value = 0
             bl2.value = 0
         elif(360-headtolerance) < roomhead or roomhead < headtolerance:
-            if count >= 100:
+            if count >= 50:
                 headchange(roomofset, 90)
                 count = 0
                 print("TURNING 90!")
