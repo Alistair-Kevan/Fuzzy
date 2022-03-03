@@ -132,7 +132,11 @@ def loop():
             bl1.value = 0
             bl2.value = 0
         elif(360-headtolerance) < roomhead or roomhead < headtolerance:
-            if count < 200:
+            if count >= 100:
+                headchange(roomofset, 90)
+                count = 0
+                print("TURNING 90!")
+            elif count < 100:
                 print("go!")
                 fr1.value = 1
                 fr2.value = 0
@@ -143,10 +147,6 @@ def loop():
                 fl2.value = 0
                 bl1.value = 1
                 bl2.value = 0
-            else:
-                headchange(roomofset, 90)
-                count = 0
-                print("TURNING 90!")
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
