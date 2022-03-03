@@ -73,9 +73,9 @@ def setup():
 def headchange(goalhead, change):
     goalhead = goalhead + change
     if 360 <= goalhead:
-        goalhead - 360
+        goalhead = goalhead - 360
     if goalhead < 0:
-        goalhead + 360
+        goalhead = goalhead + 360
     return goalhead
 
 def loop():
@@ -86,7 +86,7 @@ def loop():
     global bm
     global bl
     ygoal = 200
-    headtolerance = 30
+    headtolerance = 5
     roomofset = setup()#save room orienation
     count = 0
     print("roomofset", roomofset)
