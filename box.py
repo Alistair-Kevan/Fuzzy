@@ -94,9 +94,9 @@ def loop():
 
         #get readings from US and Compas.
         head = get_heading(sensor)
-        print("heading: {:.2f} degrees".format(head))
+        #print("heading: {:.2f} degrees".format(head))
         roomhead = headchange(head, roomofset)#alighnes heading to room
-        print("roomhead: ", roomhead, "roomofset", roomofset)
+        print("roomhead: ", roomhead, "roomofset", roomofset, head)
         #print(head)
         try:
             fail = "bm"
@@ -146,6 +146,7 @@ def loop():
             else:
                 headchange(roomofset, 90)
                 count = 0
+                print("TURNING 90!")
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
@@ -172,14 +173,14 @@ def loop():
 
 
 if __name__ == '__main__':
-    print("go!")
+    #print("go!")
     #setup()
     #print("setup")
     try:
-        print("try loop!")
+        #print("try loop!")
         loop()
-        print("exit loop?")
+        #print("exit loop?")
     except KeyboardInterrupt:
-        print("destroy")
+       # print("destroy")
         destroy()
         print("destroyed!")
