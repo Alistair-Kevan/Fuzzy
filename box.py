@@ -99,17 +99,23 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset)
         #print(head)
         try:
+            fail = "bm"
             bm = sonarbm.distance
-
+            fail = "fm"
             fm = sonarfm.distance
-            fr = sonarfr.distance
-            bl = sonarbl.distance
-
-            br = sonarbr.distance
+            fail = "fl"
             fl = sonarfl.distance
+            fail = "fr"
+            fr = sonarfr.distance
+            fail = "bl"
+            bl = sonarbl.distance
+            fail = "br"
+            br = sonarbr.distance
+
+
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
-            print("Retrying!", "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+            print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         #logic starts here
         ymeasured = bm
         xmeasured = bl
