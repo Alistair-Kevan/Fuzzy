@@ -96,7 +96,7 @@ def loop():
         head = get_heading(sensor)
         #print("heading: {:.2f} degrees".format(head))
         roomhead = headchange(head, roomofset)#alighnes heading to room
-        print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head "count:", count)
+        print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
             fail = "bm"
