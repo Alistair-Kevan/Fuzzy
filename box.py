@@ -119,7 +119,7 @@ def loop():
         #logic starts here
         ymeasured = bm
         xmeasured = bl
-        count +1
+        count = count + 1
         if fm < 10:
             print("stop!")
             fr1.value = 0
