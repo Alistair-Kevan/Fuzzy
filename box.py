@@ -137,7 +137,7 @@ def loop():
                 fl2.value = 0
                 bl1.value = 1
                 bl2.value = 0
-                if fm < 20:
+                #if fm < 20:
                 #    roomofset = headchange(roomofset, 90)
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
