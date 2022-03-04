@@ -187,7 +187,7 @@ def loop():
             fl2.value = 1
             bl1.value = 0
             bl2.value = 1
-        time.sleep(0.1)
+        #time.sleep(0.1)
 
 
 if __name__ == '__main__':
