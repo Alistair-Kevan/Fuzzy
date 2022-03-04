@@ -90,7 +90,7 @@ def loop():
     global bm
     global bl
     ygoal = 200
-    headtolerance = 5
+    headtolerance = 2
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     count = 0
