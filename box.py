@@ -78,6 +78,10 @@ def headchange(goalhead, change):
         goalhead = goalhead + 360
     return goalhead
 
+
+
+
+
 def loop():
     global fl
     global fm
@@ -88,6 +92,7 @@ def loop():
     ygoal = 200
     headtolerance = 5
     roomofset = setup()#save room orienation
+    gridheading = 0 #direction relative to start position
     count = 0
     print("roomofset", roomofset)
     while True:
@@ -95,7 +100,7 @@ def loop():
         #get readings from US and Compas.
         head = get_heading(sensor)
         #print("heading: {:.2f} degrees".format(head))
-        roomhead = headchange(head, roomofset)#alighnes heading to room
+        roomhead = headchange(head, (roomofset+gridheading)#alighnes heading to room
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
@@ -111,8 +116,6 @@ def loop():
             bl = sonarbl.distance
             fail = "br"
             br = sonarbr.distance
-
-
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
@@ -120,24 +123,8 @@ def loop():
         ymeasured = bm
         xmeasured = bl
         count = count + 1
-        if fm < 10:
-            print("stop!")
-            fr1.value = 0
-            fr2.value = 0
-            br1.value = 0
-            br2.value = 0
 
-            fl1.value = 0
-            fl2.value = 0
-            bl1.value = 0
-            bl2.value = 0
-            headchange(roomofset, 90)
-        elif(360-headtolerance) < roomhead or roomhead < headtolerance:
-            if count >= 50:
-                headchange(roomofset, 90)
-                count = 0
-                print("TURNING 90!")
-            elif count < 100:
+        if(360-headtolerance) < roomhead or roomhead < headtolerance:
                 print("go!")
                 fr1.value = 1
                 fr2.value = 0
@@ -148,6 +135,8 @@ def loop():
                 fl2.value = 0
                 bl1.value = 1
                 bl2.value = 0
+                if fm < 10:
+                    headchange(roomofset, 30)
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0

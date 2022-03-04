@@ -1,5 +1,5 @@
 
-
+trimf(error, [-5, -5, 0])
 def trimf(x, points):
     pointA = points[0]
     pointB = points[1]
