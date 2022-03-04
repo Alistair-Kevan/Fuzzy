@@ -105,10 +105,11 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-            fail = "bm"
-            bm = sonarbm.distance
+
             fail = "fm"
             fm = sonarfm.distance
+            """fail = "bm"
+            bm = sonarbm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
@@ -116,7 +117,7 @@ def loop():
             fail = "bl"
             bl = sonarbl.distance
             fail = "br"
-            br = sonarbr.distance
+            br = sonarbr.distance"""
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
@@ -137,7 +138,7 @@ def loop():
                 bl1.value = 1
                 bl2.value = 0
                 if fm < 10:
-                    headchange(roomofset, 30)
+                    headchange(roomofset, 90)
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
