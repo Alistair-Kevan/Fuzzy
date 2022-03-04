@@ -94,13 +94,14 @@ def loop():
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     count = 0
+    fail = "bigfail"
     print("roomofset", roomofset)
     while True:
 
         #get readings from US and Compas.
         head = get_heading(sensor)
         #print("heading: {:.2f} degrees".format(head))
-        roomhead = headchange(head, (roomofset+gridheading)#alighnes heading to room
+        roomhead = headchange(head, (roomofset+gridheading))#alighnes heading to room
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
