@@ -139,6 +139,17 @@ def loop():
                 bl2.value = 0
                 if fm < 20:
                     roomofset = headchange(roomofset, 90)
+                    fr1.value = 0
+                    fr2.value = 0
+                    br1.value = 0
+                    br2.value = 0
+
+                    fl1.value = 0
+                    fl2.value = 0
+                    bl1.value = 0
+                    bl2.value = 0
+                    time.sleep(0.5)
+
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
             fr1.value = 0
@@ -161,7 +172,7 @@ def loop():
             fl2.value = 1
             bl1.value = 0
             bl2.value = 1
-        time.sleep(0.01)
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':
