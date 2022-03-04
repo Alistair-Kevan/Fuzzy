@@ -128,7 +128,7 @@ def loop():
         count = count + 1
 
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
-                if chill =0:
+                if chill == 0:
                     fr1.value = 0
                     fr2.value = 0
                     br1.value = 0
