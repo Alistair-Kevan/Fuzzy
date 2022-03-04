@@ -94,6 +94,7 @@ def loop():
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     count = 0
+    chill =0
     fail = "bigfail"
     print("roomofset", roomofset)
     while True:
@@ -127,6 +128,18 @@ def loop():
         count = count + 1
 
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
+                if chill =0:
+                    fr1.value = 0
+                    fr2.value = 0
+                    br1.value = 0
+                    br2.value = 0
+
+                    fl1.value = 0
+                    fl2.value = 0
+                    bl1.value = 0
+                    bl2.value = 0
+                    time.sleep(0.2)
+                    chill = 1
                 print("go!")
                 fr1.value = 1
                 fr2.value = 0
@@ -151,6 +164,7 @@ def loop():
                     time.sleep(0.5)
 
         elif roomhead > 180:
+            chill = 0
             print("turn right")  # from low numbers towards north
             fr1.value = 0
             fr2.value = 1
@@ -162,6 +176,7 @@ def loop():
             bl1.value = 1
             bl2.value = 0
         else:
+            chill = 1
             print("turn left")  # from high numbers towards north
             fr1.value = 1
             fr2.value = 0
