@@ -150,6 +150,7 @@ def loop():
                 fl2.value = 0
                 bl1.value = 1
                 bl2.value = 0
+                """
                 if fm < 20:
                     roomofset = headchange(roomofset, -90)
                     fr1.value = 0
@@ -161,7 +162,7 @@ def loop():
                     fl2.value = 0
                     bl1.value = 0
                     bl2.value = 0
-                    time.sleep(0.5)
+                    time.sleep(0.5)"""
 
         elif roomhead > 180:
             chill = 0
