@@ -173,7 +173,7 @@ def loop():
         #logic starts here
 
         count = count + 1
-
+        """
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
                 if chill == 0:
                     fr1.value = 0
@@ -229,7 +229,7 @@ def loop():
             br1.value, br2.value = 1, 0
             fl1.value, fl2.value = 0, 1
             bl1.value, bl2.value = 0, 1
-
+        """
         #time.sleep(0.1)
 
 
