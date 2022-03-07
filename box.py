@@ -89,6 +89,7 @@ def loop():
     ygoal = 200
     headtolerance = 10
     roomofset = setup()#save room orienation
+    roomofset = 0
     gridheading = 0 #direction relative to start position
     count = 0
     chill =0
@@ -125,44 +126,32 @@ def loop():
         count = count + 1
 
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
-                if chill == 0:
-                    fr1.value = 0
-                    fr2.value = 0
-                    br1.value = 0
-                    br2.value = 0
+            print("go!")
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
 
-                    fl1.value = 0
-                    fl2.value = 0
-                    bl1.value = 0
-                    bl2.value = 0
-                    time.sleep(0.2)
-                    chill = 1
-                print("go!")
-                fr1.value = 1
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
+            if fm < 6 or fr <8 or fl < 8:
+                if fl < 6:
+                    roomofset = headchange(roomofset, 5)
+
+                else:
+                    roomofset = headchange(roomofset, -5)
+                fr1.value = 0
                 fr2.value = 0
-                br1.value = 1
+                br1.value = 0
                 br2.value = 0
 
-                fl1.value = 1
+                fl1.value = 0
                 fl2.value = 0
-                bl1.value = 1
+                bl1.value = 0
                 bl2.value = 0
-                if fm < 10 or fl < 7 or fr < 7:
-                    if fl < 10:
-                        roomofset = headchange(roomofset, 10)
-
-                    else:
-                        roomofset = headchange(roomofset, -10)
-                    fr1.value = 0
-                    fr2.value = 0
-                    br1.value = 0
-                    br2.value = 0
-
-                    fl1.value = 0
-                    fl2.value = 0
-                    bl1.value = 0
-                    bl2.value = 0
-                    time.sleep(0.1)
+                time.sleep(0.1)
 
 
         elif roomhead > 180:
