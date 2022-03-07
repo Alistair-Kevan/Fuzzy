@@ -106,7 +106,7 @@ def loop():
 
             fail = "fm"
             fm = sonarfm.distance
-            """fail = "bm"
+            fail = "bm"
             bm = sonarbm.distance
             fail = "fl"
             fl = sonarfl.distance
@@ -115,7 +115,7 @@ def loop():
             fail = "bl"
             bl = sonarbl.distance
             fail = "br"
-            br = sonarbr.distance"""
+            br = sonarbr.distance
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
@@ -162,7 +162,7 @@ def loop():
                     fl2.value = 0
                     bl1.value = 0
                     bl2.value = 0
-                    time.sleep(0.5)
+                    time.sleep(0.1)
 
 
         elif roomhead > 180:
