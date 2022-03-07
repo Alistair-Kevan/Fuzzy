@@ -79,9 +79,6 @@ def headchange(goalhead, change):
     return goalhead
 
 
-
-
-
 def loop():
     global fl
     global fm
@@ -151,7 +148,11 @@ def loop():
                 bl1.value = 1
                 bl2.value = 0
                 if fm < 10:
-                    roomofset = headchange(roomofset, 30)
+                    if fl < 10:
+                        roomofset = headchange(roomofset, 10)
+
+                    else:
+                        roomofset = headchange(roomofset, -10)
                     fr1.value = 0
                     fr2.value = 0
                     br1.value = 0
@@ -162,6 +163,7 @@ def loop():
                     bl1.value = 0
                     bl2.value = 0
                     time.sleep(0.5)
+
 
         elif roomhead > 180:
             chill = 0
