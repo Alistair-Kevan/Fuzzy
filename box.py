@@ -150,7 +150,7 @@ def loop():
                 fl2.value = 0
                 bl1.value = 1
                 bl2.value = 0
-                if fm < 20:
+                if fm < 10:
                     roomofset = headchange(roomofset, 90)
                     fr1.value = 0
                     fr2.value = 0
