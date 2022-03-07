@@ -147,19 +147,19 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-
+            fail = "bl"
+            bl = sonarbl.distance
+            fail = "bm"
+            bm = sonarbm.distance
             fail = "fm"
             fm = sonarfm.distance
-            """fail = "bm"
-            bm = sonarbm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
             fr = sonarfr.distance
-            fail = "bl"
-            bl = sonarbl.distance
+
             fail = "br"
-            br = sonarbr.distance"""
+            br = sonarbr.distance
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
