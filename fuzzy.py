@@ -1,3 +1,84 @@
+import time
+from math import atan2, degrees, cos
+import RPi.GPIO
+import board
+import digitalio
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+import adafruit_hcsr04
+import adafruit_lsm303dlh_mag
+#ensure gpios are clean
+RPi.GPIO.cleanup()
+#create objects for each sesnor, f/b = front/back l/m/r = left/middle/right
+sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)  # 9, 11
+sonarfm = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
+sonarfr = adafruit_hcsr04.HCSR04(trigger_pin=board.D22, echo_pin=board.D10)  # 22, 10
+sonarbr = adafruit_hcsr04.HCSR04(trigger_pin=board.D17, echo_pin=board.D27)  # 17,27
+sonarbm = adafruit_hcsr04.HCSR04(trigger_pin=board.D14, echo_pin=board.D15)  # 24,25
+sonarbl = adafruit_hcsr04.HCSR04(trigger_pin=board.D25, echo_pin=board.D18)  # 18, 23
+fl = 0
+fm = 0
+fr = 0
+br = 0
+bm = 0
+bl = 0
+
+i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
+sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
+fr1 = digitalio.DigitalInOut(board.D20)  # front right motor pair
+fr1.direction = digitalio.Direction.OUTPUT
+fr2 = digitalio.DigitalInOut(board.D21)
+fr2.direction = digitalio.Direction.OUTPUT
+
+br1 = digitalio.DigitalInOut(board.D16)  # 19 back right motor pair
+br1.direction = digitalio.Direction.OUTPUT
+br2 = digitalio.DigitalInOut(board.D12)  # 26
+br2.direction = digitalio.Direction.OUTPUT
+
+fl1 = digitalio.DigitalInOut(board.D7)  # front left motor pair
+fl1.direction = digitalio.Direction.OUTPUT
+fl2 = digitalio.DigitalInOut(board.D8)
+fl2.direction = digitalio.Direction.OUTPUT
+
+bl1 = digitalio.DigitalInOut(board.D19)  # 12 back left motor pair
+bl1.direction = digitalio.Direction.OUTPUT
+bl2 = digitalio.DigitalInOut(board.D26)  # 16
+bl2.direction = digitalio.Direction.OUTPUT
+
+
+def destroy():
+    RPi.GPIO.cleanup()
+    print("\nCleaned up GPIO resources.")
+
+
+def vector_2_degrees(x, y):
+    angle = degrees(atan2(y, x))
+    if angle < 0:
+        angle += 360
+    return angle
+
+
+def get_heading(_sensor):
+    magnet_x, magnet_y, _ = _sensor.magnetic
+    return vector_2_degrees(magnet_x, magnet_y)
+
+
+def setup():
+    roomdeg = get_heading(sensor)
+    roomdeg = -1*roomdeg
+    print("set up")
+    return roomdeg
+
+
+def headchange(goalhead, change):
+    goalhead = goalhead + change
+    if 360 <= goalhead:
+        goalhead = goalhead - 360
+    if goalhead < 0:
+        goalhead = goalhead + 360
+    return goalhead
+
+
 def x_far(x): #  T\ left edge shape
     fallstart = 200
     fallend = 250
@@ -36,6 +117,136 @@ def x_close(x): # /T shape right end
     elif fallend < x < fallstart:
         return (fallend - x) / (fallend - fallstart)#falling edge
 
+
+    x_close(x)
+    x_mid(x)
+    x_far(x)
+
+
+def loop():
+    global fl
+    global fm
+    global fr
+    global br
+    global bm
+    global bl
+    ygoal = 200
+    headtolerance = 10
+    roomofset = setup()#save room orienation
+    gridheading = 0 #direction relative to start position
+    count = 0
+    chill =0
+    fail = "bigfail"
+    print("roomofset", roomofset)
+    while True:
+
+        #get readings from US and Compas.
+        head = get_heading(sensor)
+        #print("heading: {:.2f} degrees".format(head))
+        roomhead = headchange(head, (roomofset+gridheading))#alighnes heading to room
+        print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
+        #print(head)
+        try:
+
+            fail = "fm"
+            fm = sonarfm.distance
+            """fail = "bm"
+            bm = sonarbm.distance
+            fail = "fl"
+            fl = sonarfl.distance
+            fail = "fr"
+            fr = sonarfr.distance
+            fail = "bl"
+            bl = sonarbl.distance
+            fail = "br"
+            br = sonarbr.distance"""
+            print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+        except RuntimeError:
+            print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+        ymeasured = bm * cos(roomhead)
+        xmeasured = bl*cos(roomhead)
+        print("x = ", xmeasured, "y = ", ymeasured )
+        close = x_close(xmeasured)
+        mid = x_mid(xmeasured)
+        far = x_far(xmeasured)
+
+        #logic starts here
+
+        count = count + 1
+
+        if(360-headtolerance) < roomhead or roomhead < headtolerance:
+                if chill == 0:
+                    fr1.value = 0
+                    fr2.value = 0
+                    br1.value = 0
+                    br2.value = 0
+
+                    fl1.value = 0
+                    fl2.value = 0
+                    bl1.value = 0
+                    bl2.value = 0
+                    time.sleep(0.2)
+                    chill = 1
+                print("go!")
+                fr1.value = 1
+                fr2.value = 0
+                br1.value = 1
+                br2.value = 0
+
+                fl1.value = 1
+                fl2.value = 0
+                bl1.value = 1
+                bl2.value = 0
+                if fm < 10:
+                    #roomofset = headchange(roomofset, 30)
+                    fr1.value = 0
+                    fr2.value = 0
+                    br1.value = 0
+                    br2.value = 0
+
+                    fl1.value = 0
+                    fl2.value = 0
+                    bl1.value = 0
+                    bl2.value = 0
+                    time.sleep(0.5)
+
+        elif roomhead > 180:
+            chill = 0
+            print("turn right")  # from low numbers towards north
+            fr1.value = 0
+            fr2.value = 1
+            br1.value = 0
+            br2.value = 1
+
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
+        else:
+            chill = 1
+            print("turn left")  # from high numbers towards north
+            fr1.value, fr2.value = 1, 0
+            br1.value, br2.value = 1, 0
+            fl1.value, fl2.value = 0, 1
+            bl1.value, bl2.value = 0, 1
+
+        #time.sleep(0.1)
+
+
+if __name__ == '__main__':
+    #print("go!")
+    #setup()
+    #print("setup")
+    try:
+        #print("try loop!")
+        loop()
+        #print("exit loop?")
+    except KeyboardInterrupt:
+       # print("destroy")
+        destroy()
+        print("destroyed!")
+
+"""
 def trapmf(x, points):
     pointA = points[0]
     pointB = points[1]
@@ -52,4 +263,4 @@ def trapmf(x, points):
         result = 1
     elif x > pointC and x < pointD:
         result = slopeCD * x + yInterceptCD
-    return result
+    return result"""
