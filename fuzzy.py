@@ -179,7 +179,16 @@ def loop():
         import board
         #fr1.duty_cycle = 2 ** 15
         for cycle in range(0, 65535):  # Cycles through the full PWM range from 0 to 65535
+            print("go!")
             fr1.duty_cycle = cycle
+            fr2.value = 0
+            br1.duty_cycle = cycle
+            br2.value = 0
+
+            fl1.duty_cycle = cycle
+            fl2.value = 0
+            bl1.duty_cycle = cycle
+            bl2.value = 0
         # = pwmio.PWMOut(board.LED)
         #pwm.duty_cycle = 2 ** 15
         #time.sleep(0.1)
