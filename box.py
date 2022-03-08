@@ -137,7 +137,7 @@ def loop():
             bl1.value = 1
             bl2.value = 0
             if fm < 6 or fr <8 or fl < 8:
-                if fl < 6:
+                if fl < 8:
                     roomofset = headchange(roomofset, 5)
 
                 else:

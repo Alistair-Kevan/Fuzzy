@@ -3,6 +3,7 @@ from math import atan2, degrees, cos
 import RPi.GPIO
 import board
 import digitalio
+import pwmio
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 import adafruit_hcsr04
@@ -80,8 +81,8 @@ def headchange(goalhead, change):
 
 
 def x_far(x): #  T\ left edge shape
-    fallstart = 200
-    fallend = 250
+    fallstart = 30
+    fallend = 40
     if x <= fallstart:
         return 1
     elif x >= fallend:
@@ -91,10 +92,10 @@ def x_far(x): #  T\ left edge shape
 
 
 def x_mid(x): # /T\ shape in middel
-    leftend =500
-    fullleft = 650
-    fullright = 750
-    rightend = 900
+    leftend =10
+    fullleft = 20
+    fullright = 25
+    rightend = 35
     if x <= leftend:
         return 0
     elif x >= rightend:
@@ -108,8 +109,8 @@ def x_mid(x): # /T\ shape in middel
 
 
 def x_close(x): # /T shape right end
-    fallstart = 750
-    fallend = 250
+    fallstart = 5
+    fallend = 15
     if x >= fallstart:
         return 1
     elif x <= fallend:
@@ -118,9 +119,11 @@ def x_close(x): # /T shape right end
         return (fallend - x) / (fallend - fallstart)#falling edge
 
 
-    x_close(x)
-    x_mid(x)
-    x_far(x)
+def leftmotorpwm(speed):
+    fl1.value = 1
+    fl2.value = 0
+    bl1.value = 1
+    bl2.value = 0
 
 
 def loop():
@@ -165,6 +168,12 @@ def loop():
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         ymeasured = bm * cos(roomhead)
         xmeasured = bl*cos(roomhead)
+        leftobsticalclose = x_close(fl)
+        leftobsticalmid = x_mid(fl)
+        leftobsticalfar = x_far(fl)
+        rightobsticalclose = x_close(fr)
+        rightobsticalmid = x_mid(fr)
+        rightobsticalfar = x_far(fr)
         print("x = ", xmeasured, "y = ", ymeasured )
         close = x_close(xmeasured)
         mid = x_mid(xmeasured)
@@ -173,6 +182,13 @@ def loop():
         #logic starts here
 
         count = count + 1
+        import time
+
+        import board
+        fr1.duty_cycle = 2 ** 15
+        # = pwmio.PWMOut(board.LED)
+        #pwm.duty_cycle = 2 ** 15
+        #time.sleep(0.1)
         """
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
                 if chill == 0:
