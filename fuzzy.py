@@ -179,7 +179,7 @@ def loop():
         import board
         #fr1.duty_cycle = 2 ** 15
         for cycle in range(0, 65535):  # Cycles through the full PWM range from 0 to 65535
-            print("go!")
+            #print("go!")
             fr1.duty_cycle = cycle
             fr2.value = 0
             br1.duty_cycle = cycle
