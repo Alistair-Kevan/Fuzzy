@@ -26,25 +26,17 @@ bl = 0
 
 i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-fr1 = digitalio.DigitalInOut(board.D20)  # front right motor pair
-fr1.direction = digitalio.Direction.OUTPUT
-fr2 = digitalio.DigitalInOut(board.D21)
-fr2.direction = digitalio.Direction.OUTPUT
+fr1 = pwmio.PWMOut(board.D20)  # front right motor pair
+fr2 = pwmio.PWMOut(board.D21)
 
-br1 = digitalio.DigitalInOut(board.D16)  # 19 back right motor pair
-br1.direction = digitalio.Direction.OUTPUT
-br2 = digitalio.DigitalInOut(board.D12)  # 26
-br2.direction = digitalio.Direction.OUTPUT
+br1 = pwmio.PWMOut(board.D16)  # 19 back right motor pair
+br2 = pwmio.PWMOut(board.D12)  # 26
 
-fl1 = digitalio.DigitalInOut(board.D7)  # front left motor pair
-fl1.direction = digitalio.Direction.OUTPUT
-fl2 = digitalio.DigitalInOut(board.D8)
-fl2.direction = digitalio.Direction.OUTPUT
+fl1 = pwmio.PWMOut(board.D7)  # front left motor pair
+fl2 = pwmio.PWMOut(board.D8)
 
-bl1 = digitalio.DigitalInOut(board.D19)  # 12 back left motor pair
-bl1.direction = digitalio.Direction.OUTPUT
-bl2 = digitalio.DigitalInOut(board.D26)  # 16
-bl2.direction = digitalio.Direction.OUTPUT
+bl1 = pwmio.PWMOut(board.D19)  # 12 back left motor pair
+bl2 = pwmio.PWMOut(board.D26)  # 16
 
 
 def destroy():
@@ -185,7 +177,9 @@ def loop():
         import time
 
         import board
-        fr1.duty_cycle = 2 ** 15
+        #fr1.duty_cycle = 2 ** 15
+        for cycle in range(0, 65535):  # Cycles through the full PWM range from 0 to 65535
+            fr1.duty_cycle = cycle
         # = pwmio.PWMOut(board.LED)
         #pwm.duty_cycle = 2 ** 15
         #time.sleep(0.1)
