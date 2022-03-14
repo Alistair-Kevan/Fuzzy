@@ -168,7 +168,7 @@ def loop():
 
         count = count + 1
 
-        for i in range(0, 6000, 1):
+        for i in range(0, 60000, 1):
             motors(i, i)
         """
         
