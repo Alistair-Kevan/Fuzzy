@@ -168,8 +168,8 @@ def loop():
 
         count = count + 1
 
-        for i in range(0, 101, 1):
-            motors(i,i)
+        for i in range(0, 6000, 1):
+            motors(i, i)
         """
         
          print("x = ", xmeasured, "y = ", ymeasured )
