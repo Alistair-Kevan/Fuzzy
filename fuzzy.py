@@ -178,7 +178,7 @@ def loop():
         right_activation_close = np.fmin(active_rule1, right_slow)  # removed entirely to 0
 
         active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)
-        right_activation_mid = np.fmin(active_rule2, right_fast)
+        right_activation_md = np.fmin(active_rule2, right_fast)
 
         active_rule3 = np.fmax(leftobsticalfar, frontobsticalfar)
         right_activation_far = np.fmin(active_rule3, right_fast)
