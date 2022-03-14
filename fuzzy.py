@@ -150,15 +150,15 @@ def loop():
 
 
         leftobsticalclose = fuzz.interp_membership(leftobstical  , left_hi, fl)
-        leftobsticalmid = fuzz.interp_membership(leftobstical  , left_mid, fl)
+        leftobsticalmid = fuzz.interp_membership(leftobstical  , left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical  , left_lo, fl)
 
         rightobsticalclose = fuzz.interp_membership(rightobstical  , right_hi, fm)
-        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_mid, fm)
+        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_md, fm)
         rightobsticalfar = fuzz.interp_membership(rightobstical  , right_lo, fm)
 
         frontobsticalclose = fuzz.interp_membership(frontobstical, front_hi, fr)
-        frontobsticalmid = fuzz.interp_membership(frontobstical, front_mid, fr)
+        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
 
         leftmotorspeed = fuzz.interp_membership(frontobstical, front_hi, fr)
