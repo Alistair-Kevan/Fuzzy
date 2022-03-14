@@ -8,6 +8,8 @@ import pwmio
 # SPDX-License-Identifier: MIT
 import adafruit_hcsr04
 import adafruit_lsm303dlh_mag
+import skfuzzy as fuzz
+import matplotlib.pyplot as plt
 #ensure gpios are clean
 RPi.GPIO.cleanup()
 #create objects for each sesnor, f/b = front/back l/m/r = left/middle/right
@@ -72,45 +74,6 @@ def headchange(goalhead, change):
     return goalhead
 
 
-def x_far(x): #  T\ left edge shape
-    fallstart = 30
-    fallend = 40
-    if x <= fallstart:
-        return 1
-    elif x >= fallend:
-        return 0
-    elif fallstart < x < fallend:
-        return (fallend - x) / (fallend - fallstart)#falling edge
-
-
-def x_mid(x): # /T\ shape in middel
-    leftend =10
-    fullleft = 20
-    fullright = 25
-    rightend = 35
-    if x <= leftend:
-        return 0
-    elif x >= rightend:
-        return 0
-    elif leftend < x < fullleft:
-        return (x - leftend) / (fullleft - leftend)#rising edge
-    elif fullleft >= x >= fullright:
-        return 1
-    elif fullright < x < rightend:
-        return (rightend - x) / (rightend - fullright)# falling edge
-
-
-def x_close(x): # /T shape right end
-    fallstart = 5
-    fallend = 15
-    if x >= fallstart:
-        return 1
-    elif x <= fallend:
-        return 0
-    elif fallend < x < fallstart:
-        return (fallend - x) / (fallend - fallstart)#falling edge
-
-
 def motors(leftcycle, rightcycle):
     fr1.duty_cycle = rightcycle
     fr2.value = 0
@@ -130,6 +93,7 @@ def loop():
     global br
     global bm
     global bl
+    #silly variable
     ygoal = 200
     headtolerance = 10
     roomofset = setup()#save room orienation
@@ -137,6 +101,23 @@ def loop():
     count = 0
     chill =0
     fail = "bigfail"
+    #fuzzy 
+    # Generate universe variables
+    #   * Quality and leftice on subjective ranges [0, 10]
+    #   * Tip has a range of [0, 25] in units of percentage points
+    frontobstical = np.arange(0, 200, 1)  # 0,11,1
+    leftobstical = np.arange(0, 200, 1)
+    rightobstical = np.arange(0, 200, 1)
+    leftmotorspeed = np.arange(0, 20, 1)
+    front_lo = fuzz.trimf(frontobstical , [0, 0, 20])
+    front_md = fuzz.trimf(frontobstical , [10, 30, 50])
+    front_hi = fuzz.trimf(frontobstical , [30, 200, 200])
+    left_lo = fuzz.trimf(leftobstical , [0, 0, 20])
+    left_md = fuzz.trimf(leftobstical , [10, 30, 50])
+    left_hi = fuzz.trimf(leftobstical , [30, 200, 200])
+    right_lo = fuzz.trimf(rightobstical , [0, 0, 20])
+    right_md = fuzz.trimf(rightobstical , [10, 30, 50])
+    right_hi = fuzz.trimf(rightobstical , [30, 200, 200])
     print("roomofset", roomofset)
     while True:
 
@@ -165,31 +146,36 @@ def loop():
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         ymeasured = bm * cos(roomhead)
         xmeasured = bl*cos(roomhead)
-        leftobsticalclose = x_close(fl)
-        leftobsticalmid = x_mid(fl)
-        leftobsticalfar = x_far(fl)
-        rightobsticalclose = x_close(fr)
-        rightobsticalmid = x_mid(fr)
-        rightobsticalfar = x_far(fr)
-        print("x = ", xmeasured, "y = ", ymeasured )
-        close = x_close(xmeasured)
-        mid = x_mid(xmeasured)
-        far = x_far(xmeasured)
+
+
+        leftobsticalclose = fuzz.interp_membership(leftobstical  , left_high, fl)
+        leftobsticalmid = fuzz.interp_membership(leftobstical  , left_mid, fl)
+        leftobsticalfar = fuzz.interp_membership(leftobstical  , left_low, fl)
+
+        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_high, fm)
+        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_mid, fm)
+        rightobsticalfar = fuzz.interp_membership(rightobstical  , right_lo, fm)
+
+        frontobsticalclose = fuzz.interp_membership(frontobstical, front_high, fr)
+        frontobsticalmid = fuzz.interp_membership(frontobstical, front_mid, fr)
+        frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
+
+        leftmotorspeed = fuzz.interp_membership(frontobstical, front_high, fr)
+
 
         #logic starts here
 
         count = count + 1
-        import time
 
-        import board
-        #fr1.duty_cycle = 2 ** 15
-        for cycle in range(0, 65535):  # Cycles through the full PWM range from 0 to 65535
-
-
-        # = pwmio.PWMOut(board.LED)
-        #pwm.duty_cycle = 2 ** 15
-        #time.sleep(0.1)
+        for i in range(0, 101, 1):
+            motors(i,i)
         """
+        
+         print("x = ", xmeasured, "y = ", ymeasured )
+        close = x_close(xmeasured)
+        mid = x_mid(xmeasured)
+        far = x_far(xmeasured)
+        
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
                 if chill == 0:
                     fr1.value = 0
@@ -279,4 +265,45 @@ def trapmf(x, points):
         result = 1
     elif x > pointC and x < pointD:
         result = slopeCD * x + yInterceptCD
-    return result"""
+    return result
+    
+    def x_far(x): #  T\ left edge shape
+    fallstart = 30
+    fallend = 40
+    if x <= fallstart:
+        return 1
+    elif x >= fallend:
+        return 0
+    elif fallstart < x < fallend:
+        return (fallend - x) / (fallend - fallstart)#falling edge
+
+
+def x_mid(x): # /T\ shape in middel
+    leftend =10
+    fullleft = 20
+    fullright = 25
+    rightend = 35
+    if x <= leftend:
+        return 0
+    elif x >= rightend:
+        return 0
+    elif leftend < x < fullleft:
+        return (x - leftend) / (fullleft - leftend)#rising edge
+    elif fullleft >= x >= fullright:
+        return 1
+    elif fullright < x < rightend:
+        return (rightend - x) / (rightend - fullright)# falling edge
+
+
+def x_close(x): # /T shape right end
+    fallstart = 5
+    fallend = 15
+    if x >= fallstart:
+        return 1
+    elif x <= fallend:
+        return 0
+    elif fallend < x < fallstart:
+        return (fallend - x) / (fallend - fallstart)#falling edge
+
+    
+    """
