@@ -109,7 +109,9 @@ def loop():
     frontobstical = np.arange(0, 200, 1)  # 0,11,1
     leftobstical = np.arange(0, 200, 1)
     rightobstical = np.arange(0, 200, 1)
-    leftmotorspeed = np.arange(0, 20, 1)
+    leftmotorspeed = np.arange(0, 65536, 1)
+    rightmotorspeed = np.arange(0, 65536, 1)
+
     front_lo = fuzz.trimf(frontobstical , [0, 0, 20])
     front_md = fuzz.trimf(frontobstical , [10, 30, 50])
     front_hi = fuzz.trimf(frontobstical , [30, 200, 200])
@@ -119,6 +121,12 @@ def loop():
     right_lo = fuzz.trimf(rightobstical , [0, 0, 20])
     right_md = fuzz.trimf(rightobstical , [10, 30, 50])
     right_hi = fuzz.trimf(rightobstical , [30, 200, 200])
+
+    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 35536])
+    left_fast = fuzz.trimf(leftmotorspeed, [30536, 65536, 65536])
+    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 35536])
+    right_fast = fuzz.trimf(rightmotorspeed, [30536, 65536, 65536])
+
     print("roomofset", roomofset)
     while True:
 
@@ -129,19 +137,19 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-            fail = "bl"
-            bl = sonarbl.distance
-            fail = "bm"
-            bm = sonarbm.distance
+
             fail = "fm"
             fm = sonarfm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
             fr = sonarfr.distance
-
-            fail = "br"
+            """fail = "br"
             br = sonarbr.distance
+            fail = "bl"
+            bl = sonarbl.distance
+            fail = "bm"
+            bm = sonarbm.distance"""
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
@@ -161,15 +169,40 @@ def loop():
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
 
-        leftmotorspeed = fuzz.interp_membership(frontobstical, front_hi, fr)
+        # Now we take our rules and apply them. Rule 1 concerns bad food OR service.
+        # The OR operator means we take the maximum of these two.
+        active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
 
+        # Now we apply this by clipping the top off the corresponding output
+        # membership function with `np.fmin`
+        tip_activation_lo = np.fmin(active_rule1, right_slow)  # removed entirely to 0
 
+        active_rule1 = np.fmax(leftobsticalmid, frontobsticalmid)
+        tip_activation_lo = np.fmin(active_rule1, left_fast)
+
+        active_rule1 = np.fmax(leftobsticalfar, frontobsticalfar)
+        tip_activation_lo = np.fmin(active_rule1, left_fast)
+        # For rule 2 we connect acceptable service to medium tipping
+        tip_activation_md = np.fmin(rightobsticalclose, left_slow)
+        tip_activation_md = np.fmin(rightobsticalmid, left_fast)
+        tip_activation_md = np.fmin(rightobsticalfar, left_fast)
+
+        # For rule 3 we connect high service OR high food with high tipping
+        right0 = np.zeros_like(rightmotorspeed)
+        left0 = np.zeros_like(leftmotorspeed)
+
+        #defuzzy
+        aggregatedleft = np.fmax(left_fast, left_slow)
+        leftcrispspeed = fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')
+
+        aggregatedright = np.fmax(right_fast, right_slow)
+        rightcrispspeed = fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')
+        motors(rightcrispspeed,leftcrispspeed)
         #logic starts here
 
         count = count + 1
 
-        for i in range(0, 65536, 1):
-            motors(i, i)
+
         """
         
          print("x = ", xmeasured, "y = ", ymeasured )
