@@ -88,6 +88,7 @@ def motors(leftcycle, rightcycle):
 
 
 def loop():
+    print("loop")
     global fl
     global fm
     global fr
