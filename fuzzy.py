@@ -9,7 +9,7 @@ import pwmio
 import adafruit_hcsr04
 import adafruit_lsm303dlh_mag
 import skfuzzy as fuzz
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 #ensure gpios are clean
 RPi.GPIO.cleanup()
 #create objects for each sesnor, f/b = front/back l/m/r = left/middle/right
@@ -148,19 +148,19 @@ def loop():
         xmeasured = bl*cos(roomhead)
 
 
-        leftobsticalclose = fuzz.interp_membership(leftobstical  , left_high, fl)
+        leftobsticalclose = fuzz.interp_membership(leftobstical  , left_hi, fl)
         leftobsticalmid = fuzz.interp_membership(leftobstical  , left_mid, fl)
-        leftobsticalfar = fuzz.interp_membership(leftobstical  , left_low, fl)
+        leftobsticalfar = fuzz.interp_membership(leftobstical  , left_lo, fl)
 
-        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_high, fm)
+        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_hi, fm)
         rightobsticalmid = fuzz.interp_membership(rightobstical  , right_mid, fm)
         rightobsticalfar = fuzz.interp_membership(rightobstical  , right_lo, fm)
 
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_high, fr)
+        frontobsticalclose = fuzz.interp_membership(frontobstical, front_hi, fr)
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_mid, fr)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
 
-        leftmotorspeed = fuzz.interp_membership(frontobstical, front_high, fr)
+        leftmotorspeed = fuzz.interp_membership(frontobstical, front_hi, fr)
 
 
         #logic starts here
