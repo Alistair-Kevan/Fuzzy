@@ -8,6 +8,7 @@ import pwmio
 # SPDX-License-Identifier: MIT
 import adafruit_hcsr04
 import adafruit_lsm303dlh_mag
+import numpy as np
 import skfuzzy as fuzz
 #import matplotlib.pyplot as plt
 #ensure gpios are clean
