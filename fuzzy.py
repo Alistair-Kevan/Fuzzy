@@ -153,8 +153,8 @@ def loop():
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
-        ymeasured = bm * cos(roomhead)
-        xmeasured = bl*cos(roomhead)
+        #ymeasured = bm * cos(roomhead)
+        #xmeasured = bl*cos(roomhead)
 
 
         leftobsticalclose = fuzz.interp_membership(leftobstical  , left_hi, fl)
@@ -172,32 +172,33 @@ def loop():
         # Now we take our rules and apply them. Rule 1 concerns bad food OR service.
         # The OR operator means we take the maximum of these two.
         active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
-
         # Now we apply this by clipping the top off the corresponding output
         # membership function with `np.fmin`
-        tip_activation_lo = np.fmin(active_rule1, right_slow)  # removed entirely to 0
+        #map left obsticals to right speeds
+        right_activation_close = np.fmin(active_rule1, right_slow)  # removed entirely to 0
 
-        active_rule1 = np.fmax(leftobsticalmid, frontobsticalmid)
-        tip_activation_lo = np.fmin(active_rule1, left_fast)
+        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)
+        right_activation_mid = np.fmin(active_rule2, right_fast)
 
-        active_rule1 = np.fmax(leftobsticalfar, frontobsticalfar)
-        tip_activation_lo = np.fmin(active_rule1, left_fast)
-        # For rule 2 we connect acceptable service to medium tipping
-        tip_activation_md = np.fmin(rightobsticalclose, left_slow)
-        tip_activation_md = np.fmin(rightobsticalmid, left_fast)
-        tip_activation_md = np.fmin(rightobsticalfar, left_fast)
+        active_rule3 = np.fmax(leftobsticalfar, frontobsticalfar)
+        right_activation_far = np.fmin(active_rule3, right_fast)
 
-        # For rule 3 we connect high service OR high food with high tipping
+        #map right obsticals to left speeds
+        left_activation_close = np.fmin(rightobsticalclose, left_slow)
+        left_activation_md = np.fmin(rightobsticalmid, left_fast)
+        left_activation_far = np.fmin(rightobsticalfar, left_fast)
+
         right0 = np.zeros_like(rightmotorspeed)
         left0 = np.zeros_like(leftmotorspeed)
 
         #defuzzy
-        aggregatedleft = np.fmax(left_fast, left_slow)
+        aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
         leftcrispspeed = fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')
 
-        aggregatedright = np.fmax(right_fast, right_slow)
+        aggregatedright =np.fmax(right_activation_close, np.fmax(right_activation_md, right_activation_far))
         rightcrispspeed = fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')
-        motors(rightcrispspeed,leftcrispspeed)
+        print("left,right:", rightcrispspeed, leftcrispspeed)
+        motors(rightcrispspeed, leftcrispspeed)
         #logic starts here
 
         count = count + 1
