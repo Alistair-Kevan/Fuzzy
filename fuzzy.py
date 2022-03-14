@@ -156,7 +156,7 @@ def loop():
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
 
-
+        print("membership")
         leftobsticalclose = fuzz.interp_membership(leftobstical  , left_hi, fl)
         leftobsticalmid = fuzz.interp_membership(leftobstical  , left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical  , left_lo, fl)
@@ -168,7 +168,7 @@ def loop():
         frontobsticalclose = fuzz.interp_membership(frontobstical, front_hi, fr)
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
-
+        print("rules")
         # Now we take our rules and apply them. Rule 1 concerns bad food OR service.
         # The OR operator means we take the maximum of these two.
         active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
@@ -190,7 +190,7 @@ def loop():
 
         right0 = np.zeros_like(rightmotorspeed)
         left0 = np.zeros_like(leftmotorspeed)
-
+        print("defuzzy")
         #defuzzy
         aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
         leftcrispspeed = fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')
@@ -199,75 +199,6 @@ def loop():
         rightcrispspeed = fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')
         print("left,right:", rightcrispspeed, leftcrispspeed)
         motors(rightcrispspeed, leftcrispspeed)
-        #logic starts here
-
-        count = count + 1
-
-
-        """
-        
-         print("x = ", xmeasured, "y = ", ymeasured )
-        close = x_close(xmeasured)
-        mid = x_mid(xmeasured)
-        far = x_far(xmeasured)
-        
-        if(360-headtolerance) < roomhead or roomhead < headtolerance:
-                if chill == 0:
-                    fr1.value = 0
-                    fr2.value = 0
-                    br1.value = 0
-                    br2.value = 0
-
-                    fl1.value = 0
-                    fl2.value = 0
-                    bl1.value = 0
-                    bl2.value = 0
-                    time.sleep(0.2)
-                    chill = 1
-                print("go!")
-                fr1.value = 1
-                fr2.value = 0
-                br1.value = 1
-                br2.value = 0
-
-                fl1.value = 1
-                fl2.value = 0
-                bl1.value = 1
-                bl2.value = 0
-                if fm < 10:
-                    #roomofset = headchange(roomofset, 30)
-                    fr1.value = 0
-                    fr2.value = 0
-                    br1.value = 0
-                    br2.value = 0
-
-                    fl1.value = 0
-                    fl2.value = 0
-                    bl1.value = 0
-                    bl2.value = 0
-                    time.sleep(0.5)
-
-        elif roomhead > 180:
-            chill = 0
-            print("turn right")  # from low numbers towards north
-            fr1.value = 0
-            fr2.value = 1
-            br1.value = 0
-            br2.value = 1
-
-            fl1.value = 1
-            fl2.value = 0
-            bl1.value = 1
-            bl2.value = 0
-        else:
-            chill = 1
-            print("turn left")  # from high numbers towards north
-            fr1.value, fr2.value = 1, 0
-            br1.value, br2.value = 1, 0
-            fl1.value, fl2.value = 0, 1
-            bl1.value, bl2.value = 0, 1
-        """
-        #time.sleep(0.1)
 
 
 if __name__ == '__main__':
