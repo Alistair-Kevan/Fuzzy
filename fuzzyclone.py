@@ -92,8 +92,10 @@ def loop():
     right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 50000])
     right_fast = fuzz.trimf(rightmotorspeed, [15000, 65536, 65536])"""
     left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
+    left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
     left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
     right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.7])
+    right_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
     right_fast = fuzz.trimf(rightmotorspeed, [0.3, 1, 1])
 
     fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, figsize=(8, 9))
@@ -131,10 +133,10 @@ def loop():
         pro_time = ( - oldtime)
         #oldtimtime.time()
         print("Current processor time (in seconds):", pro_time)
-
-        fl = 40.74
-        fm = 60.46
-        fr = 40.74
+        print("fl, then fm, then fr")
+        fl = input()
+        fm = input()
+        fr = input()
         print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         #print("membership, load sensor readings into membership function")
         leftobsticalclose = fuzz.interp_membership(leftobstical  , left_lo, fl)
@@ -150,21 +152,21 @@ def loop():
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fr)
         #print("rules")
         # The OR operator means we take the maximum of these two.
-        active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
+        #active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
         # Now we apply this by clipping the top off the corresponding output
         # membership function with `np.fmin`
         #map left obsticals to right speeds
-        right_activation_close = np.fmin(active_rule1, right_slow) # if left or middle obstcial close, righ motor slow
+        right_activation_close = np.fmin(leftobsticalclose, right_slow) # if left or middle obstcial close, righ motor slow
 
-        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
-        right_activation_md = np.fmin(active_rule2, right_slow)# right motor slow
+        #active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
+        right_activation_md = np.fmin(leftobsticalmid, right_trundle)# right motor slow
 
-        active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and right obstical far, right motor fast
-        right_activation_far = np.fmin(active_rule3, right_fast)
+        #active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
+        right_activation_far = np.fmin(leftobsticalfar, right_fast)
 
         #map right obsticals to left speeds
         left_activation_close = np.fmin(rightobsticalclose, left_slow)
-        left_activation_md = np.fmin(rightobsticalmid, left_slow)
+        left_activation_md = np.fmin(rightobsticalmid, left_trundle)
         left_activation_far = np.fmin(rightobsticalfar, left_fast)
 
         right0 = np.zeros_like(rightmotorspeed)
@@ -187,6 +189,7 @@ def loop():
         fig, ax0 = plt.subplots(figsize=(8, 3))
 
         ax0.plot(leftmotorspeed, left_slow, 'b', linewidth=0.5, linestyle='--', )
+        ax0.plot(leftmotorspeed, left_trundle, 'b', linewidth=0.5, linestyle='--', )
         ax0.plot(leftmotorspeed, left_fast, 'g', linewidth=0.5, linestyle='--')
 
         ax0.fill_between(leftmotorspeed, left0, aggregatedleft, facecolor='Orange', alpha=0.7)
@@ -203,6 +206,7 @@ def loop():
         fig, ax1 = plt.subplots(figsize=(8, 3))
 
         ax1.plot(rightmotorspeed, right_slow, 'b', linewidth=0.5, linestyle='--', )
+        ax1.plot(rightmotorspeed, right_trundle, 'b', linewidth=0.5, linestyle='--', )
         ax1.plot(rightmotorspeed, right_fast, 'g', linewidth=0.5, linestyle='--')
 
         ax1.fill_between(rightmotorspeed, right0, aggregatedright, facecolor='Orange', alpha=0.7)

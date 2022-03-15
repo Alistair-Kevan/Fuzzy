@@ -124,8 +124,10 @@ def loop():
     right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
     left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
+    left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
     left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
     right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.7])
+    right_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
     right_fast = fuzz.trimf(rightmotorspeed, [0.3, 1, 1])
 
     print("roomofset", roomofset)
@@ -181,20 +183,21 @@ def loop():
         # Now we apply this by clipping the top off the corresponding output
         # membership function with `np.fmin`
         # map left obsticals to right speeds
-        right_activation_close = np.fmin(active_rule1, right_slow)  # if left or middle obstcial close, righ motor slow
+        right_activation_close = np.fmin(leftobsticalclose,
+                                         right_slow)  # if left or middle obstcial close, righ motor slow
 
-        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)  # if left obstical or front obstical close
-        right_activation_md = np.fmin(active_rule2, right_slow)  # right motor slow
+        # active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
+        right_activation_md = np.fmin(leftobsticalmid, right_trundle)  # right motor slow
 
-        active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)  # if left and right obstical far, right motor fast
-        right_activation_far = np.fmin(active_rule3, right_fast)
+        # active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
+        right_activation_far = np.fmin(leftobsticalfar, right_fast)
 
         # map right obsticals to left speeds
         left_activation_close = np.fmin(rightobsticalclose, left_slow)
-        left_activation_md = np.fmin(rightobsticalmid, left_slow)
+        left_activation_md = np.fmin(rightobsticalmid, left_trundle)
         left_activation_far = np.fmin(rightobsticalfar, left_fast)
 
-        right0 = np.zeros_like(rightmotorspeed)
+    right0 = np.zeros_like(rightmotorspeed)
         left0 = np.zeros_like(leftmotorspeed)
         print("defuzzy")
         #defuzzy
