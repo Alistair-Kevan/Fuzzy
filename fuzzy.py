@@ -158,35 +158,34 @@ def loop():
         #xmeasured = bl*cos(roomhead)
 
         print("membership")
-        leftobsticalclose = fuzz.interp_membership(leftobstical  , left_hi, fl)
-        leftobsticalmid = fuzz.interp_membership(leftobstical  , left_md, fl)
-        leftobsticalfar = fuzz.interp_membership(leftobstical  , left_lo, fl)
+        leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
+        leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
+        leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
 
-        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_hi, fm)
-        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_md, fm)
-        rightobsticalfar = fuzz.interp_membership(rightobstical  , right_lo, fm)
+        rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fm)
+        rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fm)
+        rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fm)
 
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_hi, fr)
+        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fr)
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
-        frontobsticalfar = fuzz.interp_membership(frontobstical, front_lo, fr)
+        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fr)
         print("rules")
-        # Now we take our rules and apply them. Rule 1 concerns bad food OR service.
         # The OR operator means we take the maximum of these two.
         active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
         # Now we apply this by clipping the top off the corresponding output
         # membership function with `np.fmin`
-        #map left obsticals to right speeds
-        right_activation_close = np.fmin(active_rule1, right_slow)  # removed entirely to 0
+        # map left obsticals to right speeds
+        right_activation_close = np.fmin(active_rule1, right_slow)  # if left or middle obstcial close, righ motor slow
 
-        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)
-        right_activation_md = np.fmin(active_rule2, right_fast)
+        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)  # if left obstical or front obstical close
+        right_activation_md = np.fmin(active_rule2, right_slow)  # right motor slow
 
-        active_rule3 = np.fmax(leftobsticalfar, frontobsticalfar)
+        active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)  # if left and right obstical far, right motor fast
         right_activation_far = np.fmin(active_rule3, right_fast)
 
-        #map right obsticals to left speeds
+        # map right obsticals to left speeds
         left_activation_close = np.fmin(rightobsticalclose, left_slow)
-        left_activation_md = np.fmin(rightobsticalmid, left_fast)
+        left_activation_md = np.fmin(rightobsticalmid, left_slow)
         left_activation_far = np.fmin(rightobsticalfar, left_fast)
 
         right0 = np.zeros_like(rightmotorspeed)
@@ -215,62 +214,3 @@ if __name__ == '__main__':
         destroy()
         print("destroyed!")
 
-"""
-def trapmf(x, points):
-    pointA = points[0]
-    pointB = points[1]
-    pointC = points[2]
-    pointD = points[3]
-    slopeAB = getSlope(pointA, 0, pointB, 1)
-    slopeCD = getSlope(pointC, 1, pointD, 0)
-    yInterceptAB = getYIntercept(pointA, 0, pointB, 1)
-    yInterceptCD = getYIntercept(pointC, 1, pointD, 0)
-    result = 0
-    if x > pointA and x < pointB:
-        result = slopeAB * x + yInterceptAB
-    elif x >= pointB and x <= pointC:
-        result = 1
-    elif x > pointC and x < pointD:
-        result = slopeCD * x + yInterceptCD
-    return result
-    
-    def x_far(x): #  T\ left edge shape
-    fallstart = 30
-    fallend = 40
-    if x <= fallstart:
-        return 1
-    elif x >= fallend:
-        return 0
-    elif fallstart < x < fallend:
-        return (fallend - x) / (fallend - fallstart)#falling edge
-
-
-def x_mid(x): # /T\ shape in middel
-    leftend =10
-    fullleft = 20
-    fullright = 25
-    rightend = 35
-    if x <= leftend:
-        return 0
-    elif x >= rightend:
-        return 0
-    elif leftend < x < fullleft:
-        return (x - leftend) / (fullleft - leftend)#rising edge
-    elif fullleft >= x >= fullright:
-        return 1
-    elif fullright < x < rightend:
-        return (rightend - x) / (rightend - fullright)# falling edge
-
-
-def x_close(x): # /T shape right end
-    fallstart = 5
-    fallend = 15
-    if x >= fallstart:
-        return 1
-    elif x <= fallend:
-        return 0
-    elif fallend < x < fallstart:
-        return (fallend - x) / (fallend - fallstart)#falling edge
-
-    
-    """
