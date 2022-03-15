@@ -74,8 +74,8 @@ def loop():
     frontobstical = np.arange(0, 200, 1)  # 0,11,1
     leftobstical = np.arange(0, 200, 1)
     rightobstical = np.arange(0, 200, 1)
-    leftmotorspeed = np.arange(0, 65536, 1)
-    rightmotorspeed = np.arange(0, 65536, 1)
+    leftmotorspeed = np.arange(0, 1, 0.1)
+    rightmotorspeed = np.arange(0, 1, 0.1)
 
     front_lo = fuzz.trimf(frontobstical , [0, 0, 100])
     front_md = fuzz.trimf(frontobstical , [50, 100, 150])
@@ -85,12 +85,16 @@ def loop():
     left_hi = fuzz.trimf(leftobstical , [100, 200, 200])
     right_lo = fuzz.trimf(rightobstical , [0, 0, 100])
     right_md = fuzz.trimf(rightobstical , [50, 100, 150])
-    right_hi = fuzz.trimf(rightobstical , [150, 200, 200])
+    right_hi = fuzz.trimf(rightobstical , [100, 200, 200])
 
-    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 50000])
+    """left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 50000])
     left_fast = fuzz.trimf(leftmotorspeed, [15000, 65536, 65536])
     right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 50000])
-    right_fast = fuzz.trimf(rightmotorspeed, [15000, 65536, 65536])
+    right_fast = fuzz.trimf(rightmotorspeed, [15000, 65536, 65536])"""
+    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
+    left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
+    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.7])
+    right_fast = fuzz.trimf(rightmotorspeed, [0.3, 1, 1])
 
     fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, figsize=(8, 9))
 

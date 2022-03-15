@@ -121,7 +121,7 @@ def loop():
     left_hi = fuzz.trimf(leftobstical, [100, 200, 200])
     right_lo = fuzz.trimf(rightobstical, [0, 0, 100])
     right_md = fuzz.trimf(rightobstical, [50, 100, 150])
-    right_hi = fuzz.trimf(rightobstical, [150, 200, 200])
+    right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
     left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
     left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
@@ -154,6 +154,12 @@ def loop():
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+        if fm>200:
+            fm=200
+        if fl>200:
+            fl = 200
+        if fr>200:
+            fr = 200
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
 
