@@ -154,12 +154,12 @@ def loop():
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
-        if fm>200:
-            fm=200
-        if fl>200:
-            fl = 200
-        if fr>200:
-            fr = 200
+        if fm > 199:
+            fm = 199
+        if fl > 199:
+            fl = 199
+        if fr > 199:
+            fr = 199
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
 
