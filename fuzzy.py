@@ -113,13 +113,13 @@ def loop():
     leftmotorspeed = np.arange(0, 1, 0.1)
     rightmotorspeed = np.arange(0, 1, 0.1)
 
-    front_lo = fuzz.trimf(frontobstical, [0, 0, 100])
+    front_lo = fuzz.trapmf(frontobstical, [0, 0, 20, 100])
     front_md = fuzz.trimf(frontobstical, [50, 100, 150])
     front_hi = fuzz.trimf(frontobstical, [100, 200, 200])
-    left_lo = fuzz.trimf(leftobstical, [0, 0, 100])
+    left_lo = fuzz.trapmf(leftobstical, [0, 0, 20, 100])
     left_md = fuzz.trimf(leftobstical, [50, 100, 150])
     left_hi = fuzz.trimf(leftobstical, [100, 200, 200])
-    right_lo = fuzz.trimf(rightobstical, [0, 0, 100])
+    right_lo = fuzz.trapmf(rightobstical, [0, 0, 20, 100])
     right_md = fuzz.trimf(rightobstical, [50, 100, 150])
     right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
