@@ -196,7 +196,7 @@ def loop():
         left_activation_md = np.fmin(rightobsticalmid, left_trundle)
         left_activation_far = np.fmin(rightobsticalfar, left_fast)
 
-    right0 = np.zeros_like(rightmotorspeed)
+        right0 = np.zeros_like(rightmotorspeed)
         left0 = np.zeros_like(leftmotorspeed)
         print("defuzzy")
         #defuzzy
