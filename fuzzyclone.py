@@ -91,12 +91,12 @@ def loop():
     left_fast = fuzz.trimf(leftmotorspeed, [15000, 65536, 65536])
     right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 50000])
     right_fast = fuzz.trimf(rightmotorspeed, [15000, 65536, 65536])"""
-    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
+    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.3])
     left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
-    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.7])
+    left_fast = fuzz.trimf(leftmotorspeed, [0.7, 1, 1])
+    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.3])
     right_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    right_fast = fuzz.trimf(rightmotorspeed, [0.3, 1, 1])
+    right_fast = fuzz.trimf(rightmotorspeed, [0.7, 1, 1])
 
     fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, figsize=(8, 9))
 
@@ -133,9 +133,9 @@ def loop():
         pro_time = ( - oldtime)
         #oldtimtime.time()
         print("Current processor time (in seconds):", pro_time)
-        print("fl, then fm, then fr")
+        print("fl, then fr")
         fl = input()
-        fm = input()
+        #fm = input()
         fr = input()
         print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         #print("membership, load sensor readings into membership function")

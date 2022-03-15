@@ -123,14 +123,14 @@ def loop():
     right_md = fuzz.trimf(rightobstical, [50, 100, 150])
     right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
-    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.7])
+    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.3])
     left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    left_fast = fuzz.trimf(leftmotorspeed, [0.3, 1, 1])
-    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.7])
+    left_fast = fuzz.trimf(leftmotorspeed, [0.7, 1, 1])
+    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.3])
     right_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    right_fast = fuzz.trimf(rightmotorspeed, [0.3, 1, 1])
+    right_fast = fuzz.trimf(rightmotorspeed, [0.7, 1, 1])
 
-    print("roomofset", roomofset)
+    #print("roomofset", roomofset)
     while True:
 
         #get readings from US and Compas.
@@ -165,7 +165,7 @@ def loop():
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
 
-        print("membership")
+        #print("membership")
         leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
         leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
@@ -177,7 +177,7 @@ def loop():
         frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fr)
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fr)
-        print("rules")
+        #print("rules")
         # The OR operator means we take the maximum of these two.
         #active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
         # Now we apply this by clipping the top off the corresponding output
@@ -198,7 +198,7 @@ def loop():
 
         right0 = np.zeros_like(rightmotorspeed)
         left0 = np.zeros_like(leftmotorspeed)
-        print("defuzzy")
+        #print("defuzzy")
         #defuzzy
         aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
         leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')*65536)
