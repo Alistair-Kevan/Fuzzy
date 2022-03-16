@@ -124,7 +124,16 @@ def loop():
         ymeasured = bm
         xmeasured = bl
         count = count + 1
+        fr1.value = 1
+        fr2.value = 0
+        br1.value = 1
+        br2.value = 0
 
+        fl1.value = 1
+        fl2.value = 0
+        bl1.value = 1
+        bl2.value = 0
+        """
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
             print("go!")
             fr1.value = 1
@@ -179,6 +188,7 @@ def loop():
             bl1.value = 0
             bl2.value = 1
         #time.sleep(0.1)
+        """
 
 
 if __name__ == '__main__':
