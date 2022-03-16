@@ -110,8 +110,8 @@ def loop():
     frontobstical = np.arange(0, 200, 1)  # 0,11,1
     leftobstical = np.arange(0, 200, 1)
     rightobstical = np.arange(0, 200, 1)
-    leftmotorspeed = np.arange(0, 1, 0.1)
-    rightmotorspeed = np.arange(0, 1, 0.1)
+    leftmotorspeed = np.arange(0, 1, 0.01)
+    rightmotorspeed = np.arange(0, 1, 0.01)
 
     front_lo = fuzz.trapmf(frontobstical, [0, 0, 20, 100])
     front_md = fuzz.trimf(frontobstical, [50, 100, 150])
@@ -141,8 +141,8 @@ def loop():
         #print(head)
         try:
 
-            fail = "fm"
-            fm = sonarfm.distance
+            #fail = "fm"
+            #fm = sonarfm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
@@ -153,7 +153,7 @@ def loop():
             bl = sonarbl.distance
             fail = "bm"
             bm = sonarbm.distance"""
-            print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+            print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         if fm > 199:
@@ -170,13 +170,13 @@ def loop():
         leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
 
-        rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fm)
-        rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fm)
-        rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fm)
+        rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
+        rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
+        rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
 
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fr)
-        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
-        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fr)
+        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
+        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
+        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
         #print("rules")
         # The OR operator means we take the maximum of these two.
         #active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)

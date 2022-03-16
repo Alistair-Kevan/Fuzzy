@@ -143,13 +143,13 @@ def loop():
         leftobsticalmid = fuzz.interp_membership(leftobstical  , left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical  , left_hi, fl)
 
-        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_lo, fm)
-        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_md, fm)
-        rightobsticalfar = fuzz.interp_membership(rightobstical  , right_hi, fm)
+        rightobsticalclose = fuzz.interp_membership(rightobstical  , right_lo, fr)
+        rightobsticalmid = fuzz.interp_membership(rightobstical  , right_md, fr)
+        rightobsticalfar = fuzz.interp_membership(rightobstical  , right_hi, fr)
 
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fr)
-        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fr)
-        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fr)
+        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
+        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
+        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
         #print("rules")
         # The OR operator means we take the maximum of these two.
         #active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
