@@ -78,16 +78,16 @@ def headchange(goalhead, change):
     return goalhead
 
 
-def motors(leftcycle, rightcycle):
+def motors(leftcycle,leftback, rightcycle,rightback):
     fr1.duty_cycle = rightcycle
-    fr2.value = 0
+    fr2.value = rightback
     br1.duty_cycle = rightcycle
-    br2.value = 0
+    br2.value = rightback
 
     fl1.duty_cycle = leftcycle
-    fl2.value = 0
+    fl2.value = leftback
     bl1.duty_cycle = leftcycle
-    bl2.value = 0
+    bl2.value = leftback
 
 
 def loop():
@@ -165,15 +165,7 @@ def loop():
         #xmeasured = bl*cos(roomhead)
         if (360 - headtolerance) < roomhead or roomhead < headtolerance:
             print("go!")
-            fr1.value = 1
-            fr2.value = 0
-            br1.value = 1
-            br2.value = 0
-
-            fl1.value = 1
-            fl2.value = 0
-            bl1.value = 1
-            bl2.value = 0
+            motors(60000,0,60000,0)
             # print("membership")
             leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
             leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
@@ -204,18 +196,11 @@ def loop():
             fl2.value = 0
             bl1.value = 1
             bl2.value = 0
+            motors(60000, 0, 0,60000)
         else:
             chill = 1
             print("turn left")  # from high numbers towards north
-            fr1.value = 1
-            fr2.value = 0
-            br1.value = 1
-            br2.value = 0
-
-            fl1.value = 0
-            fl2.value = 1
-            bl1.value = 0
-            bl2.value = 1
+            motors(0,60000,  60000,0)
 
 
 
