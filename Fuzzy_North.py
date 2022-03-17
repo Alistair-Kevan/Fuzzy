@@ -27,7 +27,7 @@ br = 0
 bm = 0
 bl = 0
 
-i2c = bord.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
+i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
 
 
 
