@@ -127,9 +127,9 @@ def loop():
     right_md = fuzz.trimf(rightobstical, [50, 100, 150])
     right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
-    turn_lo = fuzz.trimf(frontobstical, [0, 0, 45])
-    turn_md = fuzz.trimf(frontobstical, [30, 45, 60])
-    turn_hi = fuzz.trimf(frontobstical, [45, 90, 90])
+    turn_lo = fuzz.trimf(baringchange, [0, 0, 45])
+    turn_md = fuzz.trimf(baringchange, [30, 45, 60])
+    turn_hi = fuzz.trimf(baringchange, [45, 90, 90])
     #print("roomofset", roomofset)
     while True:
 
@@ -140,7 +140,6 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-
             #fail = "fm"
             #fm = sonarfm.distance
             fail = "fl"
@@ -192,16 +191,9 @@ def loop():
             left_activation_close = np.fmin(frontobsticalclose, turn_hi)
             left_activation_md = np.fmin(frontobsticalmid, turn_md)
             left_activation_far = np.fmin(frontobsticalfar, turn_lo)
-
-
-            # print("defuzzy")
-            # defuzzy
             aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-            #leftcrispspeed = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid') * 65536)
-            roomofset = aggregatedleft
+            roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
         elif roomhead > 180:
-            chill = 0
-            print("turn right")  # from low numbers towards north
             fr1.value = 0
             fr2.value = 1
             br1.value = 0
