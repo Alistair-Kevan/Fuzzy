@@ -190,6 +190,7 @@ def loop():
             left_activation_md = np.fmin(frontobsticalmid, turn_md)
             left_activation_far = np.fmin(frontobsticalfar, turn_lo)
             aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
+            if
             roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
 
         elif roomhead > 180:

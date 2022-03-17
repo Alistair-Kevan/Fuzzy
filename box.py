@@ -104,7 +104,6 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-
             fail = "fm"
             fm = sonarfm.distance
             fail = "bm"
@@ -133,7 +132,7 @@ def loop():
         fl2.value = 0
         bl1.value = 1
         bl2.value = 0
-        """
+
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
             print("go!")
             fr1.value = 1
@@ -188,18 +187,12 @@ def loop():
             bl1.value = 0
             bl2.value = 1
         #time.sleep(0.1)
-        """
+
 
 
 if __name__ == '__main__':
-    #print("go!")
-    #setup()
-    #print("setup")
     try:
-        #print("try loop!")
         loop()
-        #print("exit loop?")
     except KeyboardInterrupt:
-       # print("destroy")
         destroy()
         print("destroyed!")
