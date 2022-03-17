@@ -197,7 +197,7 @@ def loop():
             # print("defuzzy")
             # defuzzy
             aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-            leftcrispspeed = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid') * 65536)
+            #leftcrispspeed = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid') * 65536)
             roomofset= aggregatedleft
         elif roomhead > 180:
             chill = 0
