@@ -32,18 +32,25 @@ i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for 
 
 
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
-fr1 = pwmio.PWMOut(board.D20)  # front right motor pair
-fr2 = pwmio.PWMOut(board.D21)
+fr1 = digitalio.DigitalInOut(board.D20)  # front right motor pair
+fr1.direction = digitalio.Direction.OUTPUT
+fr2 = digitalio.DigitalInOut(board.D21)
+fr2.direction = digitalio.Direction.OUTPUT
 
-br1 = pwmio.PWMOut(board.D16)  # 19 back right motor pair
-br2 = pwmio.PWMOut(board.D12)  # 26
+br1 = digitalio.DigitalInOut(board.D16)  # 19 back right motor pair
+br1.direction = digitalio.Direction.OUTPUT
+br2 = digitalio.DigitalInOut(board.D12)  # 26
+br2.direction = digitalio.Direction.OUTPUT
 
-fl1 = pwmio.PWMOut(board.D7)  # front left motor pair
-fl2 = pwmio.PWMOut(board.D8)
+fl1 = digitalio.DigitalInOut(board.D7)  # front left motor pair
+fl1.direction = digitalio.Direction.OUTPUT
+fl2 = digitalio.DigitalInOut(board.D8)
+fl2.direction = digitalio.Direction.OUTPUT
 
-bl1 = pwmio.PWMOut(board.D19)  # 12 back left motor pair
-bl2 = pwmio.PWMOut(board.D26)  # 16
-
+bl1 = digitalio.DigitalInOut(board.D19)  # 12 back left motor pair
+bl1.direction = digitalio.Direction.OUTPUT
+bl2 = digitalio.DigitalInOut(board.D26)  # 16
+bl2.direction = digitalio.Direction.OUTPUT
 
 def destroy():
     RPi.GPIO.cleanup()
@@ -78,16 +85,7 @@ def headchange(goalhead, change):
     return goalhead
 
 
-def motors(leftcycle,leftback, rightcycle,rightback):
-    fr1.duty_cycle = rightcycle
-    fr2.value = rightback
-    br1.duty_cycle = rightcycle
-    br2.value = rightback
 
-    fl1.duty_cycle = leftcycle
-    fl2.value = leftback
-    bl1.duty_cycle = leftcycle
-    bl2.value = leftback
 
 
 def loop():
@@ -165,7 +163,15 @@ def loop():
         #xmeasured = bl*cos(roomhead)
         if (360 - headtolerance) < roomhead or roomhead < headtolerance:
             print("go!")
-            motors(65536,0,65536,0)
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
+
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
             # print("membership")
             leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
             leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
@@ -187,11 +193,27 @@ def loop():
             roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
 
         elif roomhead > 180:
-            print("turn right")
-            motors(65536, 0, 0,65536)
+            print("turn right")  # from low numbers towards north
+            fr1.value = 0
+            fr2.value = 1
+            br1.value = 0
+            br2.value = 1
+
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
         else:
             print("turn left")  # from high numbers towards north
-            motors(0,65536,  65536,0)
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
+
+            fl1.value = 0
+            fl2.value = 1
+            bl1.value = 0
+            bl2.value = 1
 
 
 if __name__ == '__main__':
