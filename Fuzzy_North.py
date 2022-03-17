@@ -203,8 +203,6 @@ def loop():
             motors(0,60000,  60000,0)
 
 
-
-
 if __name__ == '__main__':
     #print("go!")
     #setup()
