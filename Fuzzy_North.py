@@ -198,7 +198,7 @@ def loop():
             # defuzzy
             aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
             #leftcrispspeed = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid') * 65536)
-            roomofset= aggregatedleft
+            roomofset = aggregatedleft
         elif roomhead > 180:
             chill = 0
             print("turn right")  # from low numbers towards north
