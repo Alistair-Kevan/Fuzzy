@@ -180,7 +180,6 @@ def loop():
             frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
 
             # map front obstical distance to baring change
-
             left_activation_close = np.fmin(frontobsticalclose, turn_hi)
             left_activation_md = np.fmin(frontobsticalmid, turn_md)
             left_activation_far = np.fmin(frontobsticalfar, turn_lo)
