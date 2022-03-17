@@ -27,7 +27,10 @@ br = 0
 bm = 0
 bl = 0
 
-i2c = board.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
+i2c = bord.I2C()  # uses board.SCL and board.SDA initates i2c communcation for lsm303dlhc
+
+
+
 sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
 fr1 = pwmio.PWMOut(board.D20)  # front right motor pair
 fr2 = pwmio.PWMOut(board.D21)
@@ -103,15 +106,16 @@ def loop():
     count = 0
     chill =0
     fail = "bigfail"
-    #fuzzy 
+    #fuzzy
     # Generate universe variables
     #   * Quality and leftice on subjective ranges [0, 10]
     #   * Tip has a range of [0, 25] in units of percentage points
+
     frontobstical = np.arange(0, 200, 1)  # 0,11,1
     leftobstical = np.arange(0, 200, 1)
     rightobstical = np.arange(0, 200, 1)
-    leftmotorspeed = np.arange(0, 1, 0.01)
-    rightmotorspeed = np.arange(0, 1, 0.01)
+
+    baringchange = np.arange(0, 90, 1)
 
     front_lo = fuzz.trapmf(frontobstical, [0, 0, 20, 100])
     front_md = fuzz.trimf(frontobstical, [50, 100, 150])
@@ -123,13 +127,9 @@ def loop():
     right_md = fuzz.trimf(rightobstical, [50, 100, 150])
     right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
 
-    left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.3])
-    left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    left_fast = fuzz.trimf(leftmotorspeed, [0.7, 1, 1])
-    right_slow = fuzz.trimf(rightmotorspeed, [0, 0, 0.3])
-    right_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
-    right_fast = fuzz.trimf(rightmotorspeed, [0.7, 1, 1])
-
+    turn_lo = fuzz.trimf(frontobstical, [0, 0, 45])
+    turn_md = fuzz.trimf(frontobstical, [30, 45, 60])
+    turn_hi = fuzz.trimf(frontobstical, [45, 90, 90])
     #print("roomofset", roomofset)
     while True:
 
@@ -144,9 +144,9 @@ def loop():
             #fail = "fm"
             #fm = sonarfm.distance
             fail = "fl"
-            fr = sonarfl.distance
+            fl = sonarfl.distance
             fail = "fr"
-            fl = sonarfr.distance
+            fr = sonarfr.distance
             """fail = "br"
             br = sonarbr.distance
             fail = "bl"
@@ -164,50 +164,66 @@ def loop():
             fr = 199
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
+        if (360 - headtolerance) < roomhead or roomhead < headtolerance:
+            print("go!")
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
 
-        #print("membership")
-        leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
-        leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
-        leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
+            # print("membership")
+            leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
+            leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
+            leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
 
-        rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
-        rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
-        rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
+            rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
+            rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
+            rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
 
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
-        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
-        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
-        #print("rules")
-        # The OR operator means we take the maximum of these two.
-        #active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
-        # Now we apply this by clipping the top off the corresponding output
-        # membership function with `np.fmin`
-        # map left obsticals to right speeds
-        right_activation_close = np.fmin(leftobsticalclose,right_slow)  # if left or middle obstcial close, righ motor slow
+            frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
+            frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
+            frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
 
-        # active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
-        right_activation_md = np.fmin(leftobsticalmid, right_trundle)  # right motor slow
+            # map right obsticals to left speeds
+            left_activation_close = np.fmin(frontobsticalclose, turn_hi)
+            left_activation_md = np.fmin(frontobsticalmid, turn_md)
+            left_activation_far = np.fmin(frontobsticalfar, turn_lo)
 
-        # active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
-        right_activation_far = np.fmin(leftobsticalfar, right_fast)
 
-        # map right obsticals to left speeds
-        left_activation_close = np.fmin(rightobsticalclose, left_slow)
-        left_activation_md = np.fmin(rightobsticalmid, left_trundle)
-        left_activation_far = np.fmin(rightobsticalfar, left_fast)
+            # print("defuzzy")
+            # defuzzy
+            aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
+            leftcrispspeed = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid') * 65536)
 
-        right0 = np.zeros_like(rightmotorspeed)
-        left0 = np.zeros_like(leftmotorspeed)
-        #print("defuzzy")
-        #defuzzy
-        aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-        leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')*65536)
+        elif roomhead > 180:
+            chill = 0
+            print("turn right")  # from low numbers towards north
+            fr1.value = 0
+            fr2.value = 1
+            br1.value = 0
+            br2.value = 1
 
-        aggregatedright =np.fmax(right_activation_close, np.fmax(right_activation_md, right_activation_far))
-        rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65536)
+            fl1.value = 1
+            fl2.value = 0
+            bl1.value = 1
+            bl2.value = 0
+        else:
+            chill = 1
+            print("turn left")  # from high numbers towards north
+            fr1.value = 1
+            fr2.value = 0
+            br1.value = 1
+            br2.value = 0
 
-        print("left,right:", rightcrispspeed, leftcrispspeed)
-        motors(rightcrispspeed, leftcrispspeed)
+            fl1.value = 0
+            fl2.value = 1
+            bl1.value = 0
+            bl2.value = 1
+
 
 
 if __name__ == '__main__':
