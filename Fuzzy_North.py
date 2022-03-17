@@ -165,7 +165,7 @@ def loop():
         #xmeasured = bl*cos(roomhead)
         if (360 - headtolerance) < roomhead or roomhead < headtolerance:
             print("go!")
-            motors(60000,0,60000,0)
+            motors(65536,0,65536,0)
             # print("membership")
             leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
             leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
@@ -187,20 +187,11 @@ def loop():
             roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
 
         elif roomhead > 180:
-            fr1.value = 0
-            fr2.value = 1
-            br1.value = 0
-            br2.value = 1
-
-            fl1.value = 1
-            fl2.value = 0
-            bl1.value = 1
-            bl2.value = 0
-            motors(60000, 0, 0,60000)
+            print("turn right")
+            motors(65536, 0, 0,65536)
         else:
-            chill = 1
             print("turn left")  # from high numbers towards north
-            motors(0,60000,  60000,0)
+            motors(0,65536,  65536,0)
 
 
 if __name__ == '__main__':
