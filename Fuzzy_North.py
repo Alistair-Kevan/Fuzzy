@@ -140,8 +140,8 @@ def loop():
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head, "count:", count)
         #print(head)
         try:
-            #fail = "fm"
-            #fm = sonarfm.distance
+            fail = "fm"
+            fm = sonarfm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
