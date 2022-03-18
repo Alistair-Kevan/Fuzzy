@@ -132,7 +132,7 @@ def loop():
 
     #print("roomofset", roomofset)
     while True:
-        motors(65535, 0, 0, 65535)
+
         #get readings from US and Compas.
         head = get_heading(sensor)
         #print("heading: {:.2f} degrees".format(head))
@@ -213,8 +213,8 @@ def loop():
             motors(rightcrispspeed, 0, leftcrispspeed, 0)
         else:
             print("front obstical close!")
-            motors(rightcrispspeed, 0, leftcrispspeed, 0)
-            #motors(65535, 0, 0, 65535)
+            #motors(rightcrispspeed, 0, leftcrispspeed, 0)
+            motors(65535, 0, 0, 65535)
 
 
 
