@@ -213,7 +213,8 @@ def loop():
             motors(rightcrispspeed, 0, leftcrispspeed, 0)
         else:
             print("front obstical close!")
-            motors(65535, 0, 0, 65535)
+            motors(rightcrispspeed, 0, leftcrispspeed, 0)
+            #motors(65535, 0, 0, 65535)
 
 
 
