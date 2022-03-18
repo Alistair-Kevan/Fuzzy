@@ -133,7 +133,6 @@ def loop():
     #print("roomofset", roomofset)
     while True:
         motors(65535, 0, 0, 65535)
-        """"
         #get readings from US and Compas.
         head = get_heading(sensor)
         #print("heading: {:.2f} degrees".format(head))
@@ -148,15 +147,17 @@ def loop():
             fr = sonarfl.distance
             fail = "fr"
             fl = sonarfr.distance
+            """
             fail = "br"
             br = sonarbr.distance
             fail = "bl"
             bl = sonarbl.distance
             fail = "bm"
             bm = sonarbm.distance
-            #print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
+            """
+            print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
-            #print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+            print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         if fm > 199:
             fm = 199
         if fl > 199:
@@ -211,7 +212,7 @@ def loop():
         if fm > 10 :
             motors(rightcrispspeed,0, leftcrispspeed,0)
         else:
-            motors(65535,0,0,65535)"""
+            motors(65535,0,0,65535)
 
 
 
