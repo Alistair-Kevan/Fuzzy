@@ -218,7 +218,7 @@ def loop():
         rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65535)
 
         print("left,right:", rightcrispspeed, leftcrispspeed)
-        if fm > 17 and fr > 5 and fl > 5: #if (no immidate obsticals
+        if fm > 17 and fr > 7 and fl > 7: #if (no immidate obsticals)
             motors(rightcrispspeed, 0, leftcrispspeed, 0) # fuzzy defined motor speeds
         elif fl > fr:#else if obsticals closest on right
             motors(65535, 0, 0, 65535) #turn on spot left
