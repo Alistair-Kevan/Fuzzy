@@ -190,8 +190,13 @@ def loop():
             left_activation_md = np.fmin(frontobsticalmid, turn_md)
             left_activation_far = np.fmin(frontobsticalfar, turn_lo)
             aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-            if
             roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
+            if fm > 17 and fr > 10 and fl > 10:  # if (no immidate obsticals)
+
+            elif fl > fr:  # else if obsticals closest on right
+                motors(1, 0, 0, 1)  # turn on spot left
+            else:
+                motors(0, 1, 1, 0)  # else turn on spot right
 
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north

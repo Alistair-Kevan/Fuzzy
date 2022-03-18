@@ -106,16 +106,18 @@ def loop():
         try:
             fail = "fm"
             fm = sonarfm.distance
-            fail = "bm"
-            bm = sonarbm.distance
             fail = "fl"
             fl = sonarfl.distance
             fail = "fr"
             fr = sonarfr.distance
+            """
+            fail = "bm"
+            bm = sonarbm.distance
+            
             fail = "bl"
             bl = sonarbl.distance
             fail = "br"
-            br = sonarbr.distance
+            br = sonarbr.distance"""
             print("fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
@@ -134,34 +136,20 @@ def loop():
         bl2.value = 0
 
         if(360-headtolerance) < roomhead or roomhead < headtolerance:
-            print("go!")
-            fr1.value = 1
-            fr2.value = 0
-            br1.value = 1
-            br2.value = 0
-
-            fl1.value = 1
-            fl2.value = 0
-            bl1.value = 1
-            bl2.value = 0
-            if fm < 6 or fr <8 or fl < 8:
-                if fl < 8:
-                    roomofset = headchange(roomofset, 5)
-
-                else:
-                    roomofset = headchange(roomofset, -5)
-                fr1.value = 0
+            if fm > 17 and fr > 10 and fl > 10:  # if (no immidate obsticals)
+                print("go!")
+                fr1.value = 1
                 fr2.value = 0
-                br1.value = 0
+                br1.value = 1
                 br2.value = 0
-
-                fl1.value = 0
+                fl1.value = 1
                 fl2.value = 0
-                bl1.value = 0
+                bl1.value = 1
                 bl2.value = 0
-                time.sleep(0.1)
-
-
+            elif fl > fr:  # else if obsticals closest on right
+                roomofset = headchange(roomofset, -5) # turn on spot left
+            else:
+                roomofset = headchange(roomofset, 5)
         elif roomhead > 180:
             chill = 0
             print("turn right")  # from low numbers towards north

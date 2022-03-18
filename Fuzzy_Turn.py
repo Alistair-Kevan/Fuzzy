@@ -32,18 +32,18 @@ sensor = adafruit_lsm303dlh_mag.LSM303DLH_Mag(i2c)
 fr1 = pwmio.PWMOut(board.D20)  # front right motor pair
 fr2 = pwmio.PWMOut(board.D21)
 
-br1 = pwmio.PWMOut(board.D16)  # 19 back right motor pair
-br2 = pwmio.PWMOut(board.D12)  # 26
+br1 = pwmio.PWMOut(board.D16)  # back right motor pair
+br2 = pwmio.PWMOut(board.D12)
 
 fl1 = pwmio.PWMOut(board.D7)  # front left motor pair
 fl2 = pwmio.PWMOut(board.D8)
 
-bl1 = pwmio.PWMOut(board.D19)  # 12 back left motor pair
-bl2 = pwmio.PWMOut(board.D26)  # 16
+bl1 = pwmio.PWMOut(board.D19)  # back left motor pair
+bl2 = pwmio.PWMOut(board.D26)
 
 
 def destroy():
-    fr1.stop()  # stop the  PWM output
+    fr1.stop()  # stop the  PWM outputs
     fr2.stop()
     fl1.stop()
     fl2.stop()
@@ -68,29 +68,29 @@ def get_heading(_sensor):
     return vector_2_degrees(magnet_x, magnet_y)
 
 
-def setup():
+def setup():#find robot's start up heading and make it negative
     roomdeg = get_heading(sensor)
     roomdeg = -1*roomdeg
     print("set up")
     return roomdeg
 
 
-def headchange(goalhead, change):
-    goalhead = goalhead + change
-    if 360 <= goalhead:
-        goalhead = goalhead - 360
-    if goalhead < 0:
-        goalhead = goalhead + 360
-    return goalhead
+def headchange(head, change):
+    head = head + change  # add change to head
+    if 360 <= head: #if new head is too large
+        head = head - 360 # reduce head by 360
+    if head < 0:# if head is now neative
+        head = head + 360  # increase head by 360
+    return head  # return processed resultant heading
 
 
 def motors(leftcycle,leftback, rightcycle,rightback):
-    fr1.duty_cycle = rightcycle*65535
+    fr1.duty_cycle = rightcycle*65535  # right motors
     fr2.duty_cycle = rightback*65535
     br1.duty_cycle = rightcycle*65535
     br2.duty_cycle = rightback*65535
 
-    fl1.duty_cycle = leftcycle*65535
+    fl1.duty_cycle = leftcycle*65535  # left motors
     fl2.duty_cycle = leftback*65535
     bl1.duty_cycle = leftcycle*65535
     bl2.duty_cycle = leftback*65535
@@ -140,26 +140,22 @@ def loop():
         roomhead = headchange(head, (roomofset+gridheading))#alighnes heading to room
         print("roomhead: ", roomhead, "roomofset", roomofset, "heading:", head)
         try:
-
             fail = "fm"
             fm = sonarfm.distance
             fail = "fl"
             fr = sonarfl.distance
             fail = "fr"
             fl = sonarfr.distance
-            """#back sensors are not used
-            fail = "br"
+            """fail = "br" #back sensors are not used
             br = sonarbr.distance
             fail = "bl"
             bl = sonarbl.distance
             fail = "bm"
-            bm = sonarbm.distance
-            """
+            bm = sonarbm.distance"""
             print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
-            print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
-
-        if fm > 199:
+            print("Retrying failed at sensor:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+        if fm > 199:#cap us sensor range to 200.
             fm = 199
         if fl > 199:
             fl = 199
@@ -168,11 +164,9 @@ def loop():
         leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
         leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
         leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
-
         rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
         rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
         rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
-
         frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
@@ -185,7 +179,6 @@ def loop():
         right_activation_md = np.fmin(active_rule2, right_trundle)  # right motor slow
         active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
         right_activation_far = np.fmin(active_rule3, right_fast)
-
         # map right obsticals to left speeds
         left_activation_close = np.fmin(rightobsticalclose, left_slow)#If right obstical close, left motor slow
         left_activation_md = np.fmin(rightobsticalmid, left_trundle)
@@ -195,9 +188,9 @@ def loop():
         leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid'))
         aggregatedright =np.fmax(right_activation_close, np.fmax(right_activation_md, right_activation_far))
         rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid'))
-
-        print("left,right:", rightcrispspeed, leftcrispspeed)
-        if fm > 17 and fr > 7 and fl > 7: #if (no immidate obsticals)
+        print("left,right:", rightcrispspeed, leftcrispspeed)  #  print crisp motor speeds
+        # fuzzy override
+        if fm > 17 and fr > 10 and fl > 10: #if (no immidate obsticals)
             motors(rightcrispspeed, 0, leftcrispspeed, 0) # fuzzy defined motor speeds
         elif fl > fr:#else if obsticals closest on right
             motors(1, 0, 0, 1) #turn on spot left
@@ -205,18 +198,10 @@ def loop():
             motors(0, 1, 1, 0)#else turn on spot right
 
 
-
-
 if __name__ == '__main__':
-    #print("go!")
-    #setup()
-    #print("setup")
     try:
-        #print("try loop!")
         loop()
-        #print("exit loop?")
     except KeyboardInterrupt:
-       # print("destroy")
         destroy()
         print("destroyed!")
 
