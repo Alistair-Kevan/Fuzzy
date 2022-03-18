@@ -141,8 +141,8 @@ def loop():
         #print(head)
         try:
 
-            #fail = "fm"
-            #fm = sonarfm.distance
+            fail = "fm"
+            fm = sonarfm.distance
             fail = "fl"
             fr = sonarfl.distance
             fail = "fr"
