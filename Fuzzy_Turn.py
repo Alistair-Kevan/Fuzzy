@@ -210,7 +210,7 @@ def loop():
         if fm > 10 :
             motors(rightcrispspeed,0, leftcrispspeed,0)
         else:
-            motors(65536,0,0,65535)
+            motors(65535,0,0,65535)
 
 
 
