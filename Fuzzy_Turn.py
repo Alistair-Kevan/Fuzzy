@@ -51,6 +51,7 @@ def destroy():
     br2.stop()
     bl1.stop()
     bl2.stop()
+    i2c.stop()
     RPi.GPIO.cleanup()
     print("\nCleaned up GPIO resources.")
 
