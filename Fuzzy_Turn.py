@@ -77,14 +77,14 @@ def headchange(goalhead, change):
 
 def motors(leftcycle,leftback, rightcycle,rightback):
     fr1.duty_cycle = rightcycle
-    fr2.value = leftback
+    fr2.value = rightback
     br1.duty_cycle = rightcycle
     br2.value = rightback
 
     fl1.duty_cycle = leftcycle
-    fl2.value = 0
+    fl2.value = leftback
     bl1.duty_cycle = leftcycle
-    bl2.value = 0
+    bl2.value = leftback
 
 
 def loop():
