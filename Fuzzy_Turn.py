@@ -201,16 +201,16 @@ def loop():
         #print("defuzzy")
         #defuzzy
         aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-        leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')*65536)
+        leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')*65535)
 
         aggregatedright =np.fmax(right_activation_close, np.fmax(right_activation_md, right_activation_far))
-        rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65536)
+        rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65535)
 
         print("left,right:", rightcrispspeed, leftcrispspeed)
         if fm > 10 :
             motors(rightcrispspeed,0, leftcrispspeed,0)
         else:
-            motors(65536,0,0,65536)
+            motors(65536,0,0,65535)
 
 
 
