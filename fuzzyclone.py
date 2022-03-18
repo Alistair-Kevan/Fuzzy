@@ -238,3 +238,9 @@ if __name__ == '__main__':
         destroy()
         print("destroyed!")
 
+
+if sensormeasurment < 10 then:
+    Turn_Left = TRUE
+
+If an obstical is close then
+    turn away
