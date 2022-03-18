@@ -209,7 +209,7 @@ def loop():
         rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65535)
 
         print("left,right:", rightcrispspeed, leftcrispspeed)
-        if fm > 17:
+        if fm > 17 and fr > 5 and fl > 5:
             motors(rightcrispspeed, 0, leftcrispspeed, 0)
         elif fl > fr:
             print("front obstical close!")
