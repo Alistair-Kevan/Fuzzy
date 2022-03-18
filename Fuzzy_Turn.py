@@ -85,15 +85,15 @@ def headchange(goalhead, change):
 
 
 def motors(leftcycle,leftback, rightcycle,rightback):
-    fr1.duty_cycle = rightcycle
-    fr2.duty_cycle = rightback
-    br1.duty_cycle = rightcycle
-    br2.duty_cycle = rightback
+    fr1.duty_cycle = rightcycle*65535
+    fr2.duty_cycle = rightback*65535
+    br1.duty_cycle = rightcycle*65535
+    br2.duty_cycle = rightback*65535
 
-    fl1.duty_cycle = leftcycle
-    fl2.duty_cycle = leftback
-    bl1.duty_cycle = leftcycle
-    bl2.duty_cycle = leftback
+    fl1.duty_cycle = leftcycle*65535
+    fl2.duty_cycle = leftback*65535
+    bl1.duty_cycle = leftcycle*65535
+    bl2.duty_cycle = leftback*65535
 
 
 def loop():
@@ -104,9 +104,6 @@ def loop():
     global br
     global bm
     global bl
-    #silly variable
-    ygoal = 200
-    headtolerance = 10
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     fail = "bigfail" # variable for tracking US sensor failures
@@ -195,17 +192,17 @@ def loop():
         left_activation_far = np.fmin(rightobsticalfar, left_fast)
         #defuzzyfy left and right motor speeds
         aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-        leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid')*65535)
+        leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid'))
         aggregatedright =np.fmax(right_activation_close, np.fmax(right_activation_md, right_activation_far))
-        rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid')*65535)
+        rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid'))
 
         print("left,right:", rightcrispspeed, leftcrispspeed)
         if fm > 17 and fr > 7 and fl > 7: #if (no immidate obsticals)
             motors(rightcrispspeed, 0, leftcrispspeed, 0) # fuzzy defined motor speeds
         elif fl > fr:#else if obsticals closest on right
-            motors(65535, 0, 0, 65535) #turn on spot left
+            motors(1, 0, 0, 1) #turn on spot left
         else:
-            motors(0, 65535, 65535, 0)#else turn on spot right
+            motors(0, 1, 1, 0)#else turn on spot right
 
 
 
