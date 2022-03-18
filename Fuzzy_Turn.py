@@ -148,15 +148,15 @@ def loop():
             fr = sonarfl.distance
             fail = "fr"
             fl = sonarfr.distance
-            """fail = "br"
+            fail = "br"
             br = sonarbr.distance
             fail = "bl"
             bl = sonarbl.distance
             fail = "bm"
-            bm = sonarbm.distance"""
-            print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
+            bm = sonarbm.distance
+            #print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
-            print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
+            #print("Retrying failed:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         if fm > 199:
             fm = 199
         if fl > 199:
