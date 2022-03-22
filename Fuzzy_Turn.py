@@ -43,16 +43,15 @@ bl2 = pwmio.PWMOut(board.D26)
 
 
 def destroy():
-    """fr1.stop()  # stop the  PWM outputs
-    fr2.stop()
-    fl1.stop()
-    fl2.stop()
-    br1.stop()
-    br2.stop()
-    bl1.stop()
-    bl2.stop()
-    i2c.stop()"""
-    deinit()
+    fr1.deinit()  # stop the  PWM outputs
+    fr2.deinit()
+    fl1.deinit()
+    fl2.deinit()
+    br1.deinit()
+    br2.deinit()
+    bl1.deinit()
+    bl2.deinit()
+    i2c.deinit()
     RPi.GPIO.cleanup()
     print("\nCleaned up GPIO resources.")
 
