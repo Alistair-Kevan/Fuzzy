@@ -43,7 +43,7 @@ bl2 = pwmio.PWMOut(board.D26)
 
 
 def destroy():
-    fr1.stop()  # stop the  PWM outputs
+    """fr1.stop()  # stop the  PWM outputs
     fr2.stop()
     fl1.stop()
     fl2.stop()
@@ -51,7 +51,8 @@ def destroy():
     br2.stop()
     bl1.stop()
     bl2.stop()
-    i2c.stop()
+    i2c.stop()"""
+    deinit()
     RPi.GPIO.cleanup()
     print("\nCleaned up GPIO resources.")
 
@@ -74,7 +75,7 @@ def setup():#find robot's start up heading and make it negative
     print("set up")
     return roomdeg
 
-
+# head = (head + change) % 360
 def headchange(head, change):
     head = head + change  # add change to head
     if 360 <= head: #if new head is too large

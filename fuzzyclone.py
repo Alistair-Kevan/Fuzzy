@@ -100,21 +100,21 @@ def loop():
 
     fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, figsize=(8, 9))
 
-    ax0.plot(leftobstical, left_lo, 'b', linewidth=1.5, label='low')
+    ax0.plot(leftobstical, left_lo, 'b', linewidth=1.5, label='close')
     ax0.plot(leftobstical, left_md, 'g', linewidth=1.5, label='mid')
-    ax0.plot(leftobstical, left_hi, 'r', linewidth=1.5, label='high')
+    ax0.plot(leftobstical, left_hi, 'r', linewidth=1.5, label='far')
     ax0.set_title('Left Obstical Distance')
     ax0.legend()
 
-    ax1.plot(rightobstical, right_lo, 'b', linewidth=1.5, label='low')
+    ax1.plot(rightobstical, right_lo, 'b', linewidth=1.5, label='close')
     ax1.plot(rightobstical, right_md, 'g', linewidth=1.5, label='mid')
-    ax1.plot(rightobstical, right_hi, 'r', linewidth=1.5, label='high')
+    ax1.plot(rightobstical, right_hi, 'r', linewidth=1.5, label='far')
     ax1.set_title('right Obstical Distance')
     ax1.legend()
 
-    ax2.plot(frontobstical, front_lo, 'b', linewidth=1.5, label='low')
+    ax2.plot(frontobstical, front_lo, 'b', linewidth=1.5, label='close')
     ax2.plot(frontobstical, front_md, 'g', linewidth=1.5, label='mid')
-    ax2.plot(frontobstical, front_hi, 'r', linewidth=1.5, label='high')
+    ax2.plot(frontobstical, front_hi, 'r', linewidth=1.5, label='far')
     ax2.set_title('front Obstical Distance')
     ax2.legend()
 
@@ -238,9 +238,3 @@ if __name__ == '__main__':
         destroy()
         print("destroyed!")
 
-
-if sensormeasurment < 10 then:
-    Turn_Left = TRUE
-
-If an obstical is close then
-    turn away

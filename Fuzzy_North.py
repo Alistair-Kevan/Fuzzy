@@ -162,41 +162,38 @@ def loop():
         #ymeasured = bm * cos(roomhead)
         #xmeasured = bl*cos(roomhead)
         if (360 - headtolerance) < roomhead or roomhead < headtolerance:
-            print("go!")
-            fr1.value = 1
-            fr2.value = 0
-            br1.value = 1
-            br2.value = 0
-
-            fl1.value = 1
-            fl2.value = 0
-            bl1.value = 1
-            bl2.value = 0
             # print("membership")
-            leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
-            leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
-            leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
 
-            rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
-            rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
-            rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
-
-            frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
-            frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
-            frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
-
-            # map front obstical distance to baring change
-            left_activation_close = np.fmin(frontobsticalclose, turn_hi)
-            left_activation_md = np.fmin(frontobsticalmid, turn_md)
-            left_activation_far = np.fmin(frontobsticalfar, turn_lo)
-            aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
-            roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
             if fm > 17 and fr > 10 and fl > 10:  # if (no immidate obsticals)
+                print("go!")
+                fr1.value = 1
+                fr2.value = 0
+                br1.value = 1
+                br2.value = 0
 
-            elif fl > fr:  # else if obsticals closest on right
-                motors(1, 0, 0, 1)  # turn on spot left
+                fl1.value = 1
+                fl2.value = 0
+                bl1.value = 1
+                bl2.value = 0
             else:
-                motors(0, 1, 1, 0)  # else turn on spot right
+                leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
+                leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
+                leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
+
+                rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
+                rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
+                rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
+
+                frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
+                frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
+                frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
+
+                # map front obstical distance to baring change
+                left_activation_close = np.fmin(frontobsticalclose, turn_hi)
+                left_activation_md = np.fmin(frontobsticalmid, turn_md)
+                left_activation_far = np.fmin(frontobsticalfar, turn_lo)
+                aggregatedleft = np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
+                roomofset = (fuzz.defuzz(baringchange, aggregatedleft, 'centroid'))
 
         elif roomhead > 180:
             print("turn right")  # from low numbers towards north
