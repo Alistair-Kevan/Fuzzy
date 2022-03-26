@@ -96,7 +96,7 @@ def loop():
     global fl, fm, fr, br, bm, bl
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
-    headtolerance = 3
+    headtolerance = 10
     fail = "bigfail" # variable for tracking US sensor failures
     while True:
         #get readings from US and Compas.
