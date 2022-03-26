@@ -125,10 +125,11 @@ def loop():
             motors(1, 0, 1, 0)  # fuzzy defined motor speeds
         elif head > 180:
             print("turn right")  # from low numbers towards north
-            motors(0, 1, 1, 0)  # else turn on spot right
+            motors(1, 0, 0, 1)  # turn on spot left
         else:
             print("turn left")  # from high numbers towards
-            motors(1, 0, 0, 1)  # turn on spot left
+
+            motors(0, 1, 1, 0)  # else turn on spot right
         """ AVOID OBSTICLE AS IN FUZZY.PY
         if fm > 17 and fr > 10 and fl > 10:  # if (no immidate obsticals)
             motors(1, 0, 1, 0)  # fuzzy defined motor speeds
