@@ -99,23 +99,27 @@ def loop():
     right_fast = fuzz.trimf(rightmotorspeed, [0.7, 1, 1])
 
     fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, figsize=(8, 9))
-
+    plt.ylabel('Truth Value')
+    plt.xlabel('Distance (cm)')
     ax0.plot(leftobstical, left_lo, 'b', linewidth=1.5, label='close')
     ax0.plot(leftobstical, left_md, 'g', linewidth=1.5, label='mid')
     ax0.plot(leftobstical, left_hi, 'r', linewidth=1.5, label='far')
-    ax0.set_title('Left Obstical Distance')
-    ax0.legend()
+    ax0.set_title('Left Obstacle Distance')
 
+    ax0.legend()
+    plt.ylabel('Truth Value')
     ax1.plot(rightobstical, right_lo, 'b', linewidth=1.5, label='close')
     ax1.plot(rightobstical, right_md, 'g', linewidth=1.5, label='mid')
     ax1.plot(rightobstical, right_hi, 'r', linewidth=1.5, label='far')
-    ax1.set_title('right Obstical Distance')
+    ax1.set_title('Right Obstacle Distance (cm)')
+    #ax1.ylabel('Truth Value')
     ax1.legend()
-
+    plt.ylabel('Truth Value')
     ax2.plot(frontobstical, front_lo, 'b', linewidth=1.5, label='close')
     ax2.plot(frontobstical, front_md, 'g', linewidth=1.5, label='mid')
     ax2.plot(frontobstical, front_hi, 'r', linewidth=1.5, label='far')
-    ax2.set_title('front Obstical Distance')
+    ax2.set_title('Front Obstacle Distance (cm)')
+    #ax2.ylabel('Truth Value')
     ax2.legend()
 
     # Turn off top/right axes
@@ -210,7 +214,7 @@ def loop():
         ax1.plot(rightmotorspeed, right_fast, 'g', linewidth=0.5, linestyle='--')
 
         ax1.fill_between(rightmotorspeed, right0, aggregatedright, facecolor='Orange', alpha=0.7)
-        ax1.plot([rightcrispspeed, rightcrispspeed], [0, right_activation], 'k', linewidth=1.5, alpha=0.9)
+        ax1.plot([rightcrispspeed, rightcrispspeed], [0, right_activation], 'k', linewidth=1.5, alpha=.5)#aplpha = 0.9
         ax1.set_title('Aggregated membership and result (line) for Right Motor Speed')
 
         # Turn off top/right axes

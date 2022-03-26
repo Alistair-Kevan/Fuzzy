@@ -74,36 +74,26 @@ def setup():#find robot's start up heading and make it negative
     print("set up")
     return roomdeg
 
-# head = (head + change) % 360
+#
 def headchange(head, change):
-    head = head + change  # add change to head
-    if 360 <= head: #if new head is too large
-        head = head - 360 # reduce head by 360
-    if head < 0:# if head is now neative
-        head = head + 360  # increase head by 360
-    return head  # return processed resultant heading
+    return (head + change) % 360
 
 
-def motors(leftcycle,leftback, rightcycle,rightback):
+def motors(leftforward,leftback, rightcycle,rightback):
     fr1.duty_cycle = rightcycle*65535  # right motors
     fr2.duty_cycle = rightback*65535
     br1.duty_cycle = rightcycle*65535
     br2.duty_cycle = rightback*65535
 
-    fl1.duty_cycle = leftcycle*65535  # left motors
+    fl1.duty_cycle = leftforward*65535  # left motors
     fl2.duty_cycle = leftback*65535
-    bl1.duty_cycle = leftcycle*65535
+    bl1.duty_cycle = leftforward*65535
     bl2.duty_cycle = leftback*65535
 
 
 def loop():
     print("loop")
-    global fl
-    global fm
-    global fr
-    global br
-    global bm
-    global bl
+    global fl, fm, fr, br, bm, bl
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     fail = "bigfail" # variable for tracking US sensor failures
@@ -120,7 +110,7 @@ def loop():
             fr = sonarfl.distance
             fail = "fr"
             fl = sonarfr.distance
-            """fail = "br" #back sensors are not used
+            """fail = "br" #back sensors are not used (extra time taken to fire each sensor)
             br = sonarbr.distance
             fail = "bl"
             bl = sonarbl.distance
@@ -129,13 +119,6 @@ def loop():
             print("fl: ", fl, "fr: ", fr, "fm: ", fm,  "bl: ", bl, "bm:", bm, "br:", br)
         except RuntimeError:
             print("Retrying failed at sensor:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
-        if fm > 199:#cap us sensor range to 200.
-            fm = 199
-        if fl > 199:
-            fl = 199
-        if fr > 199:
-            fr = 199
-
         # fuzzy override
         if fm > 17 and fr > 10 and fl > 10: #if (no immidate obsticals)
             motors(1, 0, 1, 0) # fuzzy defined motor speeds
