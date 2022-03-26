@@ -84,7 +84,16 @@ def headchange(goalhead, change):
         goalhead = goalhead + 360
     return goalhead
 
+def motors(leftforward,leftback, rightcycle,rightback):
+    fr1.duty_cycle = rightcycle*65535  # right motors
+    fr2.duty_cycle = rightback*65535
+    br1.duty_cycle = rightcycle*65535
+    br2.duty_cycle = rightback*65535
 
+    fl1.duty_cycle = leftforward*65535  # left motors
+    fl2.duty_cycle = leftback*65535
+    bl1.duty_cycle = leftforward*65535
+    bl2.duty_cycle = leftback*65535
 
 
 

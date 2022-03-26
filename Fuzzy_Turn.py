@@ -98,12 +98,7 @@ def motors(leftcycle,leftback, rightcycle,rightback):
 
 def loop():
     print("loop")
-    global fl
-    global fm
-    global fr
-    global br
-    global bm
-    global bl
+    global fl, fm, fr, br, bm, bl
     roomofset = setup()#save room orienation
     gridheading = 0 #direction relative to start position
     fail = "bigfail" # variable for tracking US sensor failures
@@ -171,10 +166,10 @@ def loop():
         frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
         frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
 
-        # The OR operator means we take the maximum of these two.
-        active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
+        # The OR operator means we take the maximum of these two. (Fmax = OR)
         # map left obsticals to right speeds
-        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle obsticle close, righ motor slow
+        active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
+        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle obsticle close, right motor slow
         active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
         right_activation_md = np.fmin(active_rule2, right_trundle)  # right motor slow
         active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
