@@ -174,7 +174,7 @@ def loop():
         # The OR operator means we take the maximum of these two.
         active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
         # map left obsticals to right speeds
-        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle obstcial close, righ motor slow
+        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle obsticle close, righ motor slow
         active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
         right_activation_md = np.fmin(active_rule2, right_trundle)  # right motor slow
         active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
