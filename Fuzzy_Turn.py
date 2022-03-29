@@ -74,13 +74,9 @@ def setup():#find robot's start up heading and make it negative
     print("set up")
     return roomdeg
 
-# head = (head + change) % 360
+#
 def headchange(head, change):
-    head = head + change  # add change to head
-    if 360 <= head: #if new head is too large
-        head = head - 360 # reduce head by 360
-    if head < 0:# if head is now neative
-        head = head + 360  # increase head by 360
+    head = (head + change) % 360
     return head  # return processed resultant heading
 
 

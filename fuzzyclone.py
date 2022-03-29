@@ -49,12 +49,8 @@ def setup():
 
 
 def headchange(goalhead, change):
-    goalhead = goalhead + change
-    if 360 <= goalhead:
-        goalhead = goalhead - 360
-    if goalhead < 0:
-        goalhead = goalhead + 360
-    return goalhead
+    head = (goalhead + change) % 360
+    return head
 
 
 def motors(leftcycle, rightcycle):
@@ -131,12 +127,7 @@ def loop():
 
     plt.tight_layout()
     #plt.show()  # show plots
-    oldtime=0
     while True:
-
-        pro_time = ( - oldtime)
-        #oldtimtime.time()
-        print("Current processor time (in seconds):", pro_time)
         print("fl, then fr")
         fl = input()
         #fm = input()
@@ -224,15 +215,11 @@ def loop():
             ax.get_xaxis().tick_bottom()
             ax.get_yaxis().tick_left()
         plt.tight_layout()
-        oldtime = pro_time
         plt.show()  # show plots
 
 
 
 if __name__ == '__main__':
-    #print("go!")
-    #setup()
-    #print("setup")
     try:
         #print("try loop!")
         loop()
