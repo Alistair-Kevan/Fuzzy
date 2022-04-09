@@ -221,11 +221,9 @@ def loop():
 
 if __name__ == '__main__':
     try:
-        #print("try loop!")
         loop()
-        #print("exit loop?")
     except KeyboardInterrupt:
-       # print("destroy")
         destroy()
         print("destroyed!")
+
 

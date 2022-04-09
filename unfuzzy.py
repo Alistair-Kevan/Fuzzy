@@ -120,12 +120,12 @@ def loop():
         except RuntimeError:
             print("Retrying failed at sensor:", fail, "fl: ", fl, "fm: ", fm, "fr: ", fr, "bl: ", bl, "bm:", bm, "br:", br)
         # fuzzy override
-        if fm > 17 and fr > 10 and fl > 10: #if (no immidate obsticals)
+        if fm > 17 and fr > 10 and fl > 10:  # if (no immediate obstacles)
             motors(1, 0, 1, 0) # fuzzy defined motor speeds
-        elif fl > fr:#else if obsticals closest on right
-            motors(1, 0, 0, 1) #turn on spot left
+        elif fl > fr:  # else if obstacles closest on right
+            motors(1, 0, 0, 1)  # turn on spot left
         else:
-            motors(0, 1, 1, 0)#else turn on spot right
+            motors(0, 1, 1, 0)  # else turn on spot right
 
 
 if __name__ == '__main__':

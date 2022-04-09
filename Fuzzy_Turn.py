@@ -4,15 +4,12 @@ import RPi.GPIO
 import board
 import digitalio
 import pwmio
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
 import adafruit_hcsr04
 import adafruit_lsm303dlh_mag
 import numpy as np
 import skfuzzy as fuzz
 #import matplotlib.pyplot as plt
-#ensure gpios are clean
-RPi.GPIO.cleanup()
+RPi.GPIO.cleanup()#ensure gpios are clean
 #create objects for each sesnor, f/b = front/back l/m/r = left/middle/right
 sonarfl = adafruit_hcsr04.HCSR04(trigger_pin=board.D9, echo_pin=board.D11)  # 9, 11
 sonarfm = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
@@ -80,7 +77,7 @@ def headchange(head, change):
     return head  # return processed resultant heading
 
 
-def motors(leftcycle,leftback, rightcycle,rightback):
+def motors(leftcycle, leftback, rightcycle, rightback):
     fr1.duty_cycle = rightcycle*65535  # right motors
     fr2.duty_cycle = rightback*65535
     br1.duty_cycle = rightcycle*65535
@@ -99,23 +96,23 @@ def loop():
     gridheading = 0 #direction relative to start position
     fail = "bigfail" # variable for tracking US sensor failures
     # Fuzzy Control: Generate universe variables
-    #obstical ranges are from 0 to 200 cm,
+    #Obstacle ranges are from 0 to 200 cm,
     #motor speeds are multipliers, 0 to 1 is 0% to 100% speed
-    frontobstical = np.arange(0, 200, 1)  # 0,11,1
-    leftobstical = np.arange(0, 200, 1)
-    rightobstical = np.arange(0, 200, 1)
+    frontObstacle = np.arange(0, 200, 1)  # 0,11,1
+    leftObstacle = np.arange(0, 200, 1)
+    rightObstacle = np.arange(0, 200, 1)
     leftmotorspeed = np.arange(0, 1, 0.01)
     rightmotorspeed = np.arange(0, 1, 0.01)
     #define input membership funtions
-    front_lo = fuzz.trapmf(frontobstical, [0, 0, 20, 100])
-    front_md = fuzz.trimf(frontobstical, [50, 100, 150])
-    front_hi = fuzz.trimf(frontobstical, [100, 200, 200])
-    left_lo = fuzz.trapmf(leftobstical, [0, 0, 20, 100])
-    left_md = fuzz.trimf(leftobstical, [50, 100, 150])
-    left_hi = fuzz.trimf(leftobstical, [100, 200, 200])
-    right_lo = fuzz.trapmf(rightobstical, [0, 0, 20, 100])
-    right_md = fuzz.trimf(rightobstical, [50, 100, 150])
-    right_hi = fuzz.trimf(rightobstical, [100, 200, 200])
+    front_lo = fuzz.trapmf(frontObstacle, [0, 0, 20, 100])
+    front_md = fuzz.trimf(frontObstacle, [50, 100, 150])
+    front_hi = fuzz.trimf(frontObstacle, [100, 200, 200])
+    left_lo = fuzz.trapmf(leftObstacle, [0, 0, 20, 100])
+    left_md = fuzz.trimf(leftObstacle, [50, 100, 150])
+    left_hi = fuzz.trimf(leftObstacle, [100, 200, 200])
+    right_lo = fuzz.trapmf(rightObstacle, [0, 0, 20, 100])
+    right_md = fuzz.trimf(rightObstacle, [50, 100, 150])
+    right_hi = fuzz.trimf(rightObstacle, [100, 200, 200])
     #define output mebership functions
     left_slow = fuzz.trimf(leftmotorspeed, [0, 0, 0.3])
     left_trundle = fuzz.trimf(leftmotorspeed, [0.2, .5, 0.8])
@@ -152,28 +149,29 @@ def loop():
             fl = 199
         if fr > 199:
             fr = 199
-        leftobsticalclose = fuzz.interp_membership(leftobstical, left_lo, fl)
-        leftobsticalmid = fuzz.interp_membership(leftobstical, left_md, fl)
-        leftobsticalfar = fuzz.interp_membership(leftobstical, left_hi, fl)
-        rightobsticalclose = fuzz.interp_membership(rightobstical, right_lo, fr)
-        rightobsticalmid = fuzz.interp_membership(rightobstical, right_md, fr)
-        rightobsticalfar = fuzz.interp_membership(rightobstical, right_hi, fr)
-        frontobsticalclose = fuzz.interp_membership(frontobstical, front_lo, fm)
-        frontobsticalmid = fuzz.interp_membership(frontobstical, front_md, fm)
-        frontobsticalfar = fuzz.interp_membership(frontobstical, front_hi, fm)
+        leftObstacleclose = fuzz.interp_membership(leftObstacle, left_lo, fl)
+        leftObstaclemid = fuzz.interp_membership(leftObstacle, left_md, fl)
+        leftObstaclefar = fuzz.interp_membership(leftObstacle, left_hi, fl)
+        rightObstacleclose = fuzz.interp_membership(rightObstacle, right_lo, fr)
+        rightObstaclemid = fuzz.interp_membership(rightObstacle, right_md, fr)
+        rightObstaclefar = fuzz.interp_membership(rightObstacle, right_hi, fr)
+        frontObstacleclose = fuzz.interp_membership(frontObstacle, front_lo, fm)
+        frontObstaclemid = fuzz.interp_membership(frontObstacle, front_md, fm)
+        frontObstaclefar = fuzz.interp_membership(frontObstacle, front_hi, fm)
 
         # The OR operator means we take the maximum of these two. (Fmax = OR)
-        # map left obsticals to right speeds
-        active_rule1 = np.fmax(leftobsticalclose, frontobsticalclose)
-        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle obsticle close, right motor slow
-        active_rule2 = np.fmax(leftobsticalmid, frontobsticalmid)# if left obstical or front obstical close
+        # map left obstacles to right speeds
+        active_rule1 = np.fmax(leftObstacleclose, frontObstacleclose)
+        right_activation_close = np.fmin(active_rule1,right_slow)  # if left or middle Obstacleclose, right motor slow
+
+        active_rule2 = np.fmax(leftObstaclemid, frontObstaclemid)# if left Obstacle or front Obstacle close
         right_activation_md = np.fmin(active_rule2, right_trundle)  # right motor slow
-        active_rule3 = np.fmin(leftobsticalfar, frontobsticalfar)# if left and front obstical far, right motor fast
+        active_rule3 = np.fmin(leftObstaclefar, frontObstaclefar)# if left and front Obstacle far, right motor fast
         right_activation_far = np.fmin(active_rule3, right_fast)
-        # map right obsticals to left speeds
-        left_activation_close = np.fmin(rightobsticalclose, left_slow)#If right obstical close, left motor slow
-        left_activation_md = np.fmin(rightobsticalmid, left_trundle)
-        left_activation_far = np.fmin(rightobsticalfar, left_fast)
+        # map right Obstacles to left speeds
+        left_activation_close = np.fmin(rightObstacleclose, left_slow)#If right Obstacle close, left motor slow
+        left_activation_md = np.fmin(rightObstaclemid, left_trundle)
+        left_activation_far = np.fmin(rightObstaclefar, left_fast)
         #defuzzyfy left and right motor speeds
         aggregatedleft =np.fmax(left_activation_close, np.fmax(left_activation_md, left_activation_far))
         leftcrispspeed = (fuzz.defuzz(leftmotorspeed, aggregatedleft, 'centroid'))
@@ -181,12 +179,12 @@ def loop():
         rightcrispspeed = (fuzz.defuzz(rightmotorspeed, aggregatedright, 'centroid'))
         print("left,right:", rightcrispspeed, leftcrispspeed)  #  print crisp motor speeds
         # fuzzy override
-        if fm > 17 and fr > 10 and fl > 10: #if (no immidate obsticals)
-            motors(rightcrispspeed, 0, leftcrispspeed, 0) # fuzzy defined motor speeds
-        elif fl > fr:#else if obsticals closest on right
-            motors(1, 0, 0, 1) #turn on spot left
+        if fm > 17 and fr > 10 and fl > 10:  # if (no immediate obstacles)
+            motors(rightcrispspeed, 0, leftcrispspeed, 0)  # fuzzy defined motor speeds
+        elif fl > fr:  # else if obstacles are the closest on right
+            motors(1, 0, 0, 1)  # turn on spot left
         else:
-            motors(0, 1, 1, 0)#else turn on spot right
+            motors(0, 1, 1, 0)  # else turn on spot right
 
 
 if __name__ == '__main__':
